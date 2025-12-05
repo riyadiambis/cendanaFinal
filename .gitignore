@@ -1,0 +1,22 @@
+# File PHP tidak diperlukan untuk GitHub Pages
+
+
+# File sistem
+.DS_Store
+Thumbs.db
+
+# File development
+.vscode/
+.idea/
+*.log
+
+# File backup
+*.bak
+*.tmp
+*~
+
+# Node modules (jika ada)
+node_modules/
+
+# File konfigurasi lokal
+config.local.*
