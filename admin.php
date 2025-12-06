@@ -750,6 +750,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             border-color: var(--admin-accent-peach);
         }
 
+        /* ====== PERUBAHAN RIYADI ====== */
         /* // UPDATED: Sidebar dengan dark pastel modern design */
         .sidebar {
             position: fixed;
@@ -761,9 +762,10 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             border-right: 1px solid var(--admin-border);
             padding: 24px 0;
             overflow-y: auto;
-            z-index: 999;
+            z-index: 1001; /* Higher than overlay to ensure clickability */
             box-shadow: var(--admin-shadow-md);
         }
+        /* ====== END PERUBAHAN RIYADI ====== */
 
         .sidebar-nav {
             padding: 0 20px;
@@ -4887,6 +4889,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             alert('Edit Transportasi ID: ' + id + '\nFitur edit akan dibuat di form terpisah.');
         }
         
+        // ====== PERUBAHAN RIYADI ======
         // Enhanced Mobile Menu with Overlay
         const overlay = document.createElement('div');
         overlay.className = 'mobile-overlay';
@@ -4897,14 +4900,18 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             width: 100vw;
             height: 100vh;
             background: rgba(0, 0, 0, 0.6);
-            z-index: 999;
+            z-index: 900; /* Lower than sidebar to avoid blocking clicks */
             opacity: 0;
             visibility: hidden;
+            display: none; /* Hidden by default */
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             backdrop-filter: blur(8px);
+            pointer-events: none; /* Disable pointer events when hidden */
         `;
         document.body.appendChild(overlay);
+        // ====== END PERUBAHAN RIYADI ======
 
+        // ====== PERUBAHAN RIYADI ======
         // Enhanced Mobile Menu Toggle
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
@@ -4912,25 +4919,38 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             
             if (!isActive) {
                 sidebar.classList.add('active');
+                overlay.style.display = 'block';
                 overlay.style.opacity = '1';
                 overlay.style.visibility = 'visible';
+                overlay.style.pointerEvents = 'auto';
                 document.body.style.overflow = 'hidden';
             } else {
                 sidebar.classList.remove('active');
                 overlay.style.opacity = '0';
                 overlay.style.visibility = 'hidden';
+                overlay.style.pointerEvents = 'none';
                 document.body.style.overflow = '';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 400);
             }
         }
+        // ====== END PERUBAHAN RIYADI ======
 
+        // ====== PERUBAHAN RIYADI ======
         // Close mobile menu when clicking overlay
         overlay.addEventListener('click', function() {
             const sidebar = document.querySelector('.sidebar');
             sidebar.classList.remove('active');
             overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
             overlay.style.visibility = 'hidden';
             document.body.style.overflow = '';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 400);
         });
+        // ====== END PERUBAHAN RIYADI ====== */
 
         // Close mobile menu when clicking nav links
         document.querySelectorAll('.nav-link').forEach(link => {
@@ -5023,6 +5043,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             });
         }
 
+        // ====== PERUBAHAN RIYADI ======
         // Enhanced Initialization
         document.addEventListener('DOMContentLoaded', function() {
             /* removed: dark mode initialization */
@@ -5039,6 +5060,21 @@ $cacheKiller = time() . mt_rand(1000, 9999);
                 dashboardNav.classList.add('active');
             }
             
+            // Add event listeners to all nav links as backup to onclick
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Extract section name from onclick attribute
+                    const onclickAttr = this.getAttribute('onclick');
+                    if (onclickAttr) {
+                        const match = onclickAttr.match(/showSection\('([^']+)'\)/);
+                        if (match && match[1]) {
+                            e.preventDefault();
+                            showSection(match[1]);
+                        }
+                    }
+                });
+            });
+            
             // Add ripple effects
             document.querySelectorAll('.btn, .nav-link').forEach(addRippleEffect);
             
@@ -5047,6 +5083,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
                 document.body.style.opacity = '1';
             }, 100);
         });
+        // ====== END PERUBAHAN RIYADI ====== */
 
         // Handle window resize for responsive behavior
         window.addEventListener('resize', function() {
