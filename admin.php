@@ -4979,14 +4979,20 @@ $cacheKiller = time() . mt_rand(1000, 9999);
 
         /* removed: dark mode toggle functions - permanent dark theme */
 
-        // Enhanced Section Navigation with Smooth Transitions
+        // ====== PERUBAHAN RIYADI ======
+        // Enhanced Section Navigation with Smooth Transitions  
         function showSection(sectionName) {
+            console.log('showSection called with:', sectionName); // Debug log
+            
             const currentSection = document.querySelector('.content-section.active');
             const targetSection = document.getElementById(sectionName + '-section');
             const allNavLinks = document.querySelectorAll('.nav-link');
             
+            console.log('Target section found:', targetSection ? 'YES' : 'NO'); // Debug log
+            
             if (!targetSection) {
                 console.error('Section not found:', sectionName + '-section');
+                alert('Error: Section "' + sectionName + '-section" not found. Please refresh the page.');
                 return;
             }
             
@@ -4997,6 +5003,10 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             
             // Show target section
             targetSection.classList.add('active');
+            console.log('Target section activated:', sectionName); // Debug log
+            
+            // Scroll to top of content
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
             // Update navigation active state - perbaiki bug active state
             allNavLinks.forEach(link => link.classList.remove('active'));
@@ -5005,8 +5015,23 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             const activeNav = document.querySelector(`[onclick*="showSection('${sectionName}')"]`);
             if (activeNav) {
                 activeNav.classList.add('active');
+                console.log('Nav link activated:', sectionName); // Debug log
+            }
+            
+            // Close mobile menu if open
+            const sidebar = document.querySelector('.sidebar');
+            if (sidebar && sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+                overlay.style.opacity = '0';
+                overlay.style.visibility = 'hidden';
+                overlay.style.pointerEvents = 'none';
+                document.body.style.overflow = '';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 400);
             }
         }
+        // ====== END PERUBAHAN RIYADI ====== */
 
         // Add Ripple Effect to Interactive Elements
         function addRippleEffect(element) {
