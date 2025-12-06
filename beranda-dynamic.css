@@ -650,6 +650,9 @@ section:not(:last-of-type) {
     position: relative;
 }
 
+/* ====== PERUBAHAN RIYADI ====== */
+/* Removed .horizontal-scroll-wrapper class (no longer needed) */
+/* Added max-width: 100% to ensure container alignment with Tiket Pesawat section */
 .horizontal-scroll-container {
     display: flex;
     gap: 2rem;
@@ -659,9 +662,9 @@ section:not(:last-of-type) {
     padding: 1rem 0 2rem;
     -webkit-overflow-scrolling: touch;
     margin: 0;
-    /* Ensure it respects the container width */
-    max-width: 100%;
+    max-width: 100%; /* Respects parent .container width */
 }
+/* ====== END PERUBAHAN RIYADI ====== */
 
 /* Orange scrollbar removed per client request */
 .horizontal-scroll-container::-webkit-scrollbar {

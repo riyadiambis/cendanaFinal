@@ -222,6 +222,8 @@ $companyInfoData = [
                 <p>Ikuti langkah berikut untuk menyelesaikan pembayaran dengan mudah dan aman.</p>
             </div>
 
+            <!-- ====== PERUBAHAN RIYADI ====== -->
+            <!-- Removed horizontal-scroll-wrapper to align with Tiket Pesawat section container -->
             <div class="horizontal-scroll-container">
                 <!-- STEP 1: TRANSFER BANK -->
                 <article class="payment-card-scroll">
@@ -256,6 +258,7 @@ $companyInfoData = [
                         <p>Setelah validasi, e-ticket akan dikirim langsung melalui WhatsApp atau email Anda.</p>
                     </article>
             </div>
+            <!-- ====== END PERUBAHAN RIYADI ====== -->
         </div>
     </section>
 
