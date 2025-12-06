@@ -123,7 +123,14 @@ $companyInfoData = [
             <div class="gallery-grid">
                 <?php if (count($galleries) > 0): ?>
                     <?php foreach ($galleries as $gallery): ?>
-                        <article class="gallery-item" data-category="<?= htmlspecialchars($gallery['category'] ?? 'all') ?>">
+                        <article class="gallery-item" 
+                                 data-category="<?= htmlspecialchars($gallery['category'] ?? 'all') ?>"
+                                 data-image="<?= htmlspecialchars($gallery['image']) ?>"
+                                 data-title="<?= htmlspecialchars($gallery['title']) ?>"
+                                 data-description="<?= htmlspecialchars($gallery['description'] ?? '') ?>"
+                                 data-gallery-category="<?= htmlspecialchars($gallery['category'] ?? '') ?>"
+                                 onclick="openGalleryModal(this)"
+                                 style="cursor: pointer;">
                             <img src="<?= htmlspecialchars($gallery['image']) ?>" 
                                  alt="<?= htmlspecialchars($gallery['title']) ?>"
                                  onerror="this.src='https://via.placeholder.com/500x300?text=Image+Not+Found'">
@@ -247,6 +254,27 @@ $companyInfoData = [
         </div>
     </footer>
 
+    <!-- ====== PERUBAHAN RIYADI ====== -->
+    <!-- Gallery Modal (Shopee-style) -->
+    <div id="galleryModal" class="gallery-modal" onclick="closeGalleryModal(event)">
+        <div class="gallery-modal-content" onclick="event.stopPropagation()">
+            <button class="gallery-modal-close" onclick="closeGalleryModal()">
+                <i class="icon icon-close"></i>
+            </button>
+            <div class="gallery-modal-image">
+                <img id="modalImage" src="" alt="">
+            </div>
+            <div class="gallery-modal-details">
+                <h2 id="modalTitle"></h2>
+                <div class="gallery-modal-meta">
+                    <span id="modalCategory" class="gallery-modal-category"></span>
+                </div>
+                <div id="modalDescription" class="gallery-modal-description"></div>
+            </div>
+        </div>
+    </div>
+    <!-- ====== END PERUBAHAN RIYADI ====== -->
+
     <!-- WhatsApp Float Button -->
     <div class="wa-float">
         <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" target="_blank">
@@ -254,7 +282,214 @@ $companyInfoData = [
         </a>
     </div>
 
+    <!-- ====== PERUBAHAN RIYADI ====== -->
+    <style>
+        /* Modal Styles (Shopee-inspired) */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .gallery-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .gallery-modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+        
+        .gallery-modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-modal-close:hover {
+            background: #f5f5f5;
+            transform: scale(1.1);
+        }
+        
+        .gallery-modal-image {
+            width: 100%;
+            background: #f8f8f8;
+            border-radius: 16px 16px 0 0;
+            overflow: hidden;
+        }
+        
+        .gallery-modal-image img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: contain;
+            display: block;
+        }
+        
+        .gallery-modal-details {
+            padding: 32px;
+        }
+        
+        .gallery-modal-details h2 {
+            font-size: 1.75rem;
+            color: #1a1a1a;
+            margin: 0 0 16px 0;
+            font-weight: 600;
+        }
+        
+        .gallery-modal-meta {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .gallery-modal-category {
+            display: inline-block;
+            padding: 6px 16px;
+            background: linear-gradient(135deg, #D4956E 0%, #C17A4A 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .gallery-modal-description {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #555;
+        }
+        
+        .gallery-modal-description:empty::before {
+            content: 'Belum ada deskripsi tambahan.';
+            color: #999;
+            font-style: italic;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .gallery-modal-content {
+                border-radius: 12px;
+                max-height: 95vh;
+            }
+            
+            .gallery-modal-image img {
+                max-height: 300px;
+            }
+            
+            .gallery-modal-details {
+                padding: 24px 20px;
+            }
+            
+            .gallery-modal-details h2 {
+                font-size: 1.5rem;
+            }
+            
+            .gallery-modal-close {
+                width: 36px;
+                height: 36px;
+                top: 12px;
+                right: 12px;
+            }
+        }
+        
+        /* Prevent body scroll when modal is open */
+        body.modal-open {
+            overflow: hidden;
+        }
+    </style>
+    
     <script>
+        // ====== PERUBAHAN RIYADI ====== 
+        // Gallery Modal Functions (Shopee-style)
+        function openGalleryModal(element) {
+            const modal = document.getElementById('galleryModal');
+            const modalImage = document.getElementById('modalImage');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalCategory = document.getElementById('modalCategory');
+            
+            // Get data from clicked item
+            const image = element.dataset.image;
+            const title = element.dataset.title;
+            const description = element.dataset.description || '';
+            const category = element.dataset.galleryCategory || '';
+            
+            // Set modal content
+            modalImage.src = image;
+            modalImage.alt = title;
+            modalTitle.textContent = title;
+            modalDescription.textContent = description;
+            modalCategory.textContent = category || 'Galeri';
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.classList.add('modal-open');
+        }
+        
+        function closeGalleryModal(event) {
+            const modal = document.getElementById('galleryModal');
+            
+            // Close if clicking overlay or close button
+            if (!event || event.target === modal || event.target.closest('.gallery-modal-close')) {
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            }
+        }
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeGalleryModal();
+            }
+        });
+        // ====== END PERUBAHAN RIYADI ======
+        
         function filterGallery(category) {
             const items = document.querySelectorAll('.gallery-item');
             const tabs = document.querySelectorAll('.filter-tab');
