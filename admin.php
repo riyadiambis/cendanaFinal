@@ -851,14 +851,14 @@ $cacheKiller = time() . mt_rand(1000, 9999);
         }
 
         .content-section {
-            display: none;
+            display: none !important;
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .content-section.active {
-            display: block;
+            display: block !important;
             opacity: 1;
             transform: translateY(0);
             animation: fadeInUp 0.4s ease-out;
