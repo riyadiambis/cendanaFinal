@@ -162,7 +162,7 @@ if (empty($companyInfoData)) {
 
             <!-- Full Width Map -->
             <div class="map-container-large animate-on-scroll">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3968.8158906435345!2d117.1451!3d-0.5144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df68d1e0a0a0a0b%3A0x0!2sCendana%20Travel!5e0!3m2!1sid!2sid!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5044.227848422373!2d117.11965577592184!3d-0.4984504352744906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df67efeea5fd683%3A0x8810a875396e82ea!2sCendana%20MP%20Travel!5e1!3m2!1sid!2sid!4v1764993187506!5m2!1sid!2sid" width="1000" height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </section>
