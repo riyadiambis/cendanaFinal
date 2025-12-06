@@ -707,7 +707,7 @@ section {
 /* Override for legality section to remove top spacing */
 .legality-compact .section-header {
     margin-top: 0;
-    padding-top: 1.5rem;
+    padding-top: 16px;
     margin-bottom: 1.5rem;
 }
 

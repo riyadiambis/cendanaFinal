@@ -975,7 +975,7 @@ section:not(:last-of-type) {
     width: 100%;
     max-width: 800px;
     margin: 0 auto 0 auto;
-    padding: 30px 20px 0 20px;
+    padding: 30px 20px 8px 20px;
 }
 
 /* Polaroid Cards Stack */
@@ -1047,6 +1047,8 @@ section:not(:last-of-type) {
 .gallery-polaroid-content {
     position: relative;
     z-index: 10;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .gallery-polaroid-title {
