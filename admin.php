@@ -3575,141 +3575,9 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             </div>
         </div>
         
-        <!-- ============================================ -->
-        <!-- KELOLA TRANSPORTASI SECTION -->
-        <!-- ============================================ -->
-        <div id="transportasi-section" class="content-section">
-            <h1>Kelola Jenis Transportasi</h1>
-            <p>Tambah, edit, atau hapus layanan transportasi (Pesawat, Kapal, Bus)</p>
-            
-            <!-- Form Tambah Layanan -->
-            <div class="section-card">
-                <div class="section-header">
-                    <h2>Tambah Layanan Transportasi Baru</h2>
-                </div>
-                <div class="section-content">
-                    <form method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="action" value="add">
-                        <input type="hidden" name="module" value="transport">
-                        
-                        <div class="form-group">
-                            <label>Jenis Transportasi</label>
-                            <select name="transport_type" required>
-                                <option value="">-- Pilih Jenis --</option>
-                                <?php foreach ($transportTypes as $type): ?>
-                                <option value="<?= $type['type_key'] ?>"><?= $type['type_name'] ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Nama Layanan</label>
-                            <input type="text" name="name" required placeholder="Contoh: Lion Air, KM. Kelud, Bus Pariwisata">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Logo/Gambar</label>
-                            <input type="file" name="logo" accept="image/*">
-                            <small>Upload logo maskapai/operator (opsional)</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Rute/Deskripsi</label>
-                            <textarea name="route" required placeholder="Contoh: Penerbangan domestik terpercaya"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Harga</label>
-                            <input type="text" name="price" required placeholder="Contoh: Rp 450.000 - Rp 850.000">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Urutan Tampil</label>
-                            <input type="number" name="display_order" value="0" min="0">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="is_active" checked> Aktif
-                            </label>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Tambah Layanan
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <!-- Daftar Layanan per Jenis Transportasi -->
-            <?php 
-            $servicesByType = [];
-            foreach ($transportServices as $service) {
-                $servicesByType[$service['transport_type']][] = $service;
-            }
-            ?>
-            
-            <?php foreach ($transportTypes as $type): ?>
-            <div class="section-card">
-                <div class="section-header">
-                    <h2><?= $type['type_name'] ?> (<?= $type['type_key'] ?>)</h2>
-                </div>
-                <div class="section-content">
-                    <?php if (empty($servicesByType[$type['type_key']])): ?>
-                    <div style="text-align: center; padding: 2rem; color: var(--admin-text-muted);">
-                        <i class="fas fa-box-open" style="font-size: 3rem; margin-bottom: 15px; display: block; opacity: 0.3;"></i>
-                        Belum ada layanan <?= $type['type_name'] ?>
-                    </div>
-                    <?php else: ?>
-                    <div style="display: grid; gap: 1rem;">
-                        <?php foreach ($servicesByType[$type['type_key']] as $service): ?>
-                        <div style="padding: 1.25rem; background: var(--admin-bg-secondary); border-radius: 12px; border: 1px solid var(--admin-border); display: flex; align-items: center; gap: 1rem;">
-                            <?php if ($service['logo']): ?>
-                            <img src="<?= $service['logo'] ?>" alt="<?= $service['name'] ?>" 
-                                 style="width: 60px; height: 60px; object-fit: contain; border-radius: 8px; background: white; padding: 5px;">
-                            <?php else: ?>
-                            <div style="width: 60px; height: 60px; background: var(--admin-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
-                                <i class="fas fa-image"></i>
-                            </div>
-                            <?php endif; ?>
-                            
-                            <div style="flex: 1;">
-                                <h4 style="margin: 0 0 0.5rem 0; color: var(--admin-text-primary); font-size: 1.1rem;">
-                                    <?= htmlspecialchars($service['name']) ?>
-                                    <?php if (!$service['is_active']): ?>
-                                    <span class="badge badge-warning">Tidak Aktif</span>
-                                    <?php endif; ?>
-                                </h4>
-                                <p style="margin: 0 0 0.5rem 0; color: var(--admin-text-secondary); font-size: 0.9rem;">
-                                    <?= htmlspecialchars($service['route']) ?>
-                                </p>
-                                <strong style="color: var(--admin-success); font-size: 1rem;">
-                                    <?= htmlspecialchars($service['price']) ?>
-                                </strong>
-                            </div>
-                            
-                            <div style="display: flex; gap: 0.5rem;">
-                                <button onclick='editTransportFromDB(<?= json_encode($service) ?>)' class="btn btn-secondary" style="padding: 8px 12px; font-size: 0.85rem;">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <form method="POST" style="display: inline;" 
-                                      onsubmit="return confirm('Yakin ingin menghapus layanan ini?')">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="module" value="transport">
-                                    <input type="hidden" name="id" value="<?= $service['id'] ?>">
-                                    <button type="submit" class="btn btn-danger" style="padding: 8px 12px; font-size: 0.85rem;">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
+        <!-- ====== PERUBAHAN RIYADI ====== -->
+        <!-- DUPLICATE TRANSPORTASI SECTION REMOVED - Already exists above -->
+        <!-- ====== END PERUBAHAN RIYADI ====== -->
 
         <!-- ============================================ -->
         <!-- HOME CONTENT SECTION -->
@@ -4993,7 +4861,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             if (!targetSection) {
                 console.error('Section not found:', sectionName + '-section');
                 alert('Error: Section "' + sectionName + '-section" not found. Please refresh the page.');
-                return;
+                return false;
             }
             
             // Hide all sections
@@ -5003,33 +4871,47 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             
             // Show target section
             targetSection.classList.add('active');
-            console.log('Target section activated:', sectionName); // Debug log
+            console.log('✅ Section switched to:', sectionName); // Debug log
             
-            // Scroll to top of content
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Scroll to top of content area smoothly
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.scrollTop = 0;
+            }
             
-            // Update navigation active state - perbaiki bug active state
+            // Update navigation active state
             allNavLinks.forEach(link => link.classList.remove('active'));
             
             // Find and activate the correct nav link
             const activeNav = document.querySelector(`[onclick*="showSection('${sectionName}')"]`);
             if (activeNav) {
                 activeNav.classList.add('active');
-                console.log('Nav link activated:', sectionName); // Debug log
+                console.log('✅ Nav link activated:', sectionName); // Debug log
+            }
+            
+            // Update URL hash without reloading (if called from onclick, not from hashchange)
+            if (window.location.hash !== '#' + sectionName) {
+                window.history.replaceState(null, '', '#' + sectionName);
             }
             
             // Close mobile menu if open
             const sidebar = document.querySelector('.sidebar');
             if (sidebar && sidebar.classList.contains('active')) {
                 sidebar.classList.remove('active');
-                overlay.style.opacity = '0';
-                overlay.style.visibility = 'hidden';
-                overlay.style.pointerEvents = 'none';
+                if (typeof overlay !== 'undefined') {
+                    overlay.style.opacity = '0';
+                    overlay.style.visibility = 'hidden';
+                    overlay.style.pointerEvents = 'none';
+                }
                 document.body.style.overflow = '';
                 setTimeout(() => {
-                    overlay.style.display = 'none';
+                    if (typeof overlay !== 'undefined') {
+                        overlay.style.display = 'none';
+                    }
                 }, 400);
             }
+            
+            return true;
         }
         // ====== END PERUBAHAN RIYADI ====== */
 
@@ -5069,20 +4951,41 @@ $cacheKiller = time() . mt_rand(1000, 9999);
         }
 
         // ====== PERUBAHAN RIYADI ======
+        // Hash change handler - makes URL hash work properly
+        function handleHashChange() {
+            const hash = window.location.hash.substring(1); // Remove #
+            if (hash) {
+                console.log('Hash changed to:', hash);
+                showSection(hash);
+            }
+        }
+        
+        // Listen for hash changes (back/forward navigation)
+        window.addEventListener('hashchange', handleHashChange);
+        
         // Enhanced Initialization
         document.addEventListener('DOMContentLoaded', function() {
             /* removed: dark mode initialization */
             
-            // Ensure dashboard is active by default
-            const dashboardSection = document.getElementById('dashboard-section');
-            const dashboardNav = document.querySelector('[onclick*="showSection(\'dashboard\')"]');
+            // Check URL hash on page load
+            const initialHash = window.location.hash.substring(1);
             
-            if (dashboardSection && !document.querySelector('.content-section.active')) {
-                dashboardSection.classList.add('active');
-            }
-            
-            if (dashboardNav && !document.querySelector('.nav-link.active')) {
-                dashboardNav.classList.add('active');
+            if (initialHash && document.getElementById(initialHash + '-section')) {
+                // If there's a valid hash, show that section
+                console.log('Loading section from hash:', initialHash);
+                showSection(initialHash);
+            } else {
+                // Otherwise ensure dashboard is active by default
+                const dashboardSection = document.getElementById('dashboard-section');
+                const dashboardNav = document.querySelector('[onclick*="showSection(\'dashboard\')"]');
+                
+                if (dashboardSection && !document.querySelector('.content-section.active')) {
+                    dashboardSection.classList.add('active');
+                }
+                
+                if (dashboardNav && !document.querySelector('.nav-link.active')) {
+                    dashboardNav.classList.add('active');
+                }
             }
             
             // Add event listeners to all nav links as backup to onclick
@@ -5095,6 +4998,8 @@ $cacheKiller = time() . mt_rand(1000, 9999);
                         if (match && match[1]) {
                             e.preventDefault();
                             showSection(match[1]);
+                            // Update hash in URL without reloading
+                            window.location.hash = match[1];
                         }
                     }
                 });
