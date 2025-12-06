@@ -653,6 +653,7 @@ section:not(:last-of-type) {
 .horizontal-scroll-wrapper {
     position: relative;
     padding: 2rem 0;
+    margin: 0;
 }
 
 .horizontal-scroll-container {
@@ -663,6 +664,7 @@ section:not(:last-of-type) {
     scroll-behavior: smooth;
     padding: 1rem 0 2rem;
     -webkit-overflow-scrolling: touch;
+    margin: 0;
 }
 
 .horizontal-scroll-container::-webkit-scrollbar {
@@ -1440,6 +1442,15 @@ section:not(:last-of-type) {
 
     .payment-card-scroll {
         flex: 0 0 280px;
+    }
+
+    /* Ensure horizontal scroll stays within container on mobile */
+    .horizontal-scroll-wrapper {
+        margin: 0;
+    }
+
+    .horizontal-scroll-container {
+        margin: 0;
     }
 
     .testimonial-slide {
