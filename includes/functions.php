@@ -364,9 +364,9 @@ function uploadImage($file, $targetDir = 'uploads/') {
         return false;
     }
     
-    // Buat nama file unik
-    $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
-    $fileName = uniqid() . '_' . date('YmdHis') . '.' . $extension;
+    // ✅ Gunakan nama file asli yang sudah di-sanitize
+    $originalName = basename($file['name']);
+    $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $originalName);
     $targetPath = $targetDir . $fileName;
     
     // Buat folder kalau belum ada
@@ -376,7 +376,9 @@ function uploadImage($file, $targetDir = 'uploads/') {
     
     // Move uploaded file
     if (move_uploaded_file($file['tmp_name'], $targetPath)) {
-        return $targetPath;
+        // ✅ Return path RELATIF tanpa "uploads/" prefix
+        // Contoh: "pesawat/Lionair.png" (bukan "uploads/pesawat/Lionair.png")
+        return str_replace('uploads/', '', $targetPath);
     }
     
     return false;
@@ -464,6 +466,15 @@ function updateTransportService($id, $data, $logoPath = null) {
     
     $logoUpdate = "";
     if ($logoPath) {
+        // ✅ HAPUS foto lama sebelum update dengan foto baru
+        $oldData = fetchOne($conn, "SELECT logo FROM transport_services WHERE id = $id");
+        if ($oldData && !empty($oldData['logo'])) {
+            $oldLogoPath = 'uploads/' . $oldData['logo'];
+            if (file_exists($oldLogoPath)) {
+                unlink($oldLogoPath); // Hapus file lama
+            }
+        }
+        
         $logo = escapeString($conn, $logoPath);
         $logoUpdate = ", logo = '$logo'";
     }
@@ -487,14 +498,77 @@ function deleteTransportService($id) {
     global $conn;
     $id = intval($id);
     
-    // Ambil data untuk hapus file logo
+    // ✅ Hapus file logo sebelum hapus data
     $service = getTransportServiceById($id);
-    if ($service && $service['logo'] && file_exists($service['logo'])) {
-        unlink($service['logo']);
+    if ($service && !empty($service['logo'])) {
+        $logoPath = 'uploads/' . $service['logo'];
+        if (file_exists($logoPath)) {
+            unlink($logoPath); // Hapus file fisik
+        }
     }
     
     $sql = "DELETE FROM transport_services WHERE id = $id";
-    return $conn->query($sql);
+    $result = $conn->query($sql);
+    
+    // OTOMATIS RE-ORDER ID setelah delete agar tidak ada gap (1,2,3,4,5... tanpa loncat)
+    if ($result) {
+        reorderTransportServiceIDs();
+    }
+    
+    return $result;
+}
+
+// Fungsi untuk re-order ID transport services agar berurutan tanpa gap
+// Ketika data ID 6 dihapus, data setelahnya akan turun (ID 7 jadi 6, ID 8 jadi 7, dst)
+function reorderTransportServiceIDs() {
+    global $conn;
+    
+    // 1. Ambil semua data yang ada (terurut)
+    $sql = "SELECT * FROM transport_services ORDER BY id ASC";
+    $services = fetchAll($conn, $sql);
+    
+    if (empty($services)) {
+        return true;
+    }
+    
+    // 2. Buat tabel temporary untuk backup
+    $conn->query("DROP TABLE IF EXISTS transport_services_temp");
+    $conn->query("CREATE TABLE transport_services_temp LIKE transport_services");
+    
+    // 3. Insert ke temporary dengan ID berurutan mulai dari 1
+    foreach ($services as $index => $service) {
+        $newId = $index + 1; // ID baru: 1, 2, 3, 4, 5...
+        
+        $transport_type = escapeString($conn, $service['transport_type']);
+        $name = escapeString($conn, $service['name']);
+        $logo = escapeString($conn, $service['logo']);
+        $route = escapeString($conn, $service['route']);
+        $price = escapeString($conn, $service['price']);
+        $is_active = intval($service['is_active']);
+        $display_order = intval($service['display_order']);
+        $created_at = escapeString($conn, $service['created_at']);
+        $updated_at = escapeString($conn, $service['updated_at']);
+        
+        $sql = "INSERT INTO transport_services_temp 
+                (id, transport_type, name, logo, route, price, is_active, display_order, created_at, updated_at) 
+                VALUES 
+                ($newId, '$transport_type', '$name', '$logo', '$route', '$price', $is_active, $display_order, '$created_at', '$updated_at')";
+        $conn->query($sql);
+    }
+    
+    // 4. Hapus data lama
+    $conn->query("DELETE FROM transport_services");
+    
+    // 5. Reset auto-increment
+    $conn->query("ALTER TABLE transport_services AUTO_INCREMENT = 1");
+    
+    // 6. Copy kembali data dari temporary
+    $conn->query("INSERT INTO transport_services SELECT * FROM transport_services_temp");
+    
+    // 7. Hapus temporary table
+    $conn->query("DROP TABLE IF EXISTS transport_services_temp");
+    
+    return true;
 }
 
 //
@@ -526,5 +600,127 @@ function truncateText($text, $length = 100) {
     }
     return $text;
 }
+
+// ============================================
+// TRANSPORT ICONS LIBRARY FUNCTIONS
+// ============================================
+
+// Get all transport icons (optionally filter by category)
+function getAllTransportIcons($category = null) {
+    global $conn;
+    
+    $sql = "SELECT * FROM transport_icons";
+    if ($category) {
+        $category = escapeString($conn, $category);
+        $sql .= " WHERE icon_category = '$category'";
+    }
+    $sql .= " ORDER BY icon_category, icon_name";
+    
+    return fetchAll($conn, $sql);
+}
+
+// Get transport icon by ID
+function getTransportIconById($id) {
+    global $conn;
+    $id = intval($id);
+    return fetchOne($conn, "SELECT * FROM transport_icons WHERE id = $id");
+}
+
+// Add new transport icon
+function addTransportIcon($iconName, $iconFile, $iconCategory) {
+    global $conn;
+    
+    $iconName = escapeString($conn, $iconName);
+    $iconFile = escapeString($conn, $iconFile);
+    $iconCategory = escapeString($conn, $iconCategory);
+    
+    $sql = "INSERT INTO transport_icons (icon_name, icon_file, icon_category) 
+            VALUES ('$iconName', '$iconFile', '$iconCategory')";
+            
+    if ($conn->query($sql)) {
+        return $conn->insert_id;
+    }
+    return false;
+}
+
+// Update transport icon
+function updateTransportIcon($id, $iconName, $iconFile = null) {
+    global $conn;
+    
+    $id = intval($id);
+    $iconName = escapeString($conn, $iconName);
+    
+    $fileUpdate = "";
+    if ($iconFile) {
+        // Hapus file lama
+        $oldIcon = getTransportIconById($id);
+        if ($oldIcon && !empty($oldIcon['icon_file'])) {
+            $oldPath = 'uploads/' . $oldIcon['icon_file'];
+            if (file_exists($oldPath)) {
+                unlink($oldPath);
+            }
+        }
+        
+        $iconFile = escapeString($conn, $iconFile);
+        $fileUpdate = ", icon_file = '$iconFile'";
+    }
+    
+    $sql = "UPDATE transport_icons SET 
+            icon_name = '$iconName'
+            $fileUpdate
+            WHERE id = $id";
+            
+    return $conn->query($sql);
+}
+
+// Delete transport icon
+function deleteTransportIcon($id) {
+    global $conn;
+    $id = intval($id);
+    
+    // Cek apakah icon sedang dipakai
+    $inUse = fetchOne($conn, "SELECT COUNT(*) as count FROM transport_services WHERE logo = $id");
+    if ($inUse && $inUse['count'] > 0) {
+        return ['success' => false, 'message' => 'Icon sedang digunakan oleh ' . $inUse['count'] . ' transportasi. Tidak bisa dihapus!'];
+    }
+    
+    // Hapus file fisik
+    $icon = getTransportIconById($id);
+    if ($icon && !empty($icon['icon_file'])) {
+        $iconPath = 'uploads/' . $icon['icon_file'];
+        if (file_exists($iconPath)) {
+            unlink($iconPath);
+        }
+    }
+    
+    // Hapus dari database
+    $sql = "DELETE FROM transport_icons WHERE id = $id";
+    if ($conn->query($sql)) {
+        return ['success' => true, 'message' => 'Icon berhasil dihapus!'];
+    }
+    return ['success' => false, 'message' => 'Gagal menghapus icon!'];
+}
+
+// Upload icon file (re-use uploadImage but return icon data)
+function uploadTransportIcon($file, $iconName, $category) {
+    // Upload file
+    $iconFile = uploadImage($file, 'uploads/' . $category . '/');
+    
+    if ($iconFile) {
+        // Save to database
+        $iconId = addTransportIcon($iconName, $iconFile, $category);
+        if ($iconId) {
+            return [
+                'success' => true,
+                'icon_id' => $iconId,
+                'icon_file' => $iconFile,
+                'message' => 'Icon berhasil diupload!'
+            ];
+        }
+    }
+    
+    return ['success' => false, 'message' => 'Gagal upload icon!'];
+}
+
 ?>
 

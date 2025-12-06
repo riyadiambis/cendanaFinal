@@ -124,20 +124,46 @@ a:hover {
 }
 
 /* ============================================
-   LAYOUT
+   LAYOUT - GLOBAL CONTAINER
+   Unified padding untuk semua section
+   Sejajar dengan navbar
    ============================================ */
 
 .container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    padding-left: 2rem;
+    /* 32px - Fixed padding untuk alignment */
+    padding-right: 2rem;
+    /* 32px - Fixed padding untuk alignment */
+    box-sizing: border-box;
 }
 
+/* ============================================
+   SECTION POSITIONING
+   ============================================ */
+
+section {
+    position: relative;
+}
+
+/* ============================================
+   RESPONSIVE CONTAINER
+   Sesuaikan padding untuk mobile
+   ============================================ */
 @media (max-width: 768px) {
     .container {
         max-width: 100%;
-        padding: 0 var(--spacing-md);
+        padding-left: 1rem;
+        /* 16px untuk mobile */
+        padding-right: 1rem;
+        /* 16px untuk mobile */
+    }
+
+    .booking-list-section .container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 }
 
@@ -150,22 +176,37 @@ header {
     top: 0;
     left: 0;
     right: 0;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    /* OPSI 1: Pure White - Clean & Minimalist */
+    /* background: #FFFFFF; */
+
+    /* OPSI 2: Warm Beige - Elegant & Soft */
+    /* background: #FAF8F5; */
+
+    /* OPSI 3: Light Brown Pastel - Premium & Cozy (AKTIF) */
+    background: #F5F1ED;
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
     z-index: 1000;
     transition: all 0.3s ease;
 }
 
 header.scrolled {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.18);
 }
 
+/* ============================================
+   HEADER CONTAINER - SEJAJAR DENGAN KONTEN
+   ============================================ */
 .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--spacing-md) 0;
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    padding-left: 32px;
+    /* Padding diatur oleh .container */
+    padding-right: 32px;
+    /* Padding diatur oleh .container */
     min-height: 70px;
 }
 
@@ -524,7 +565,7 @@ nav {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.06);
     filter: blur(6px);
-    box-shadow: 0 0 0 0 rgba(255,255,255,0.06);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.06);
 }
 
 /* Additional circles via child pseudo-elements for variety */
@@ -612,14 +653,33 @@ nav {
     filter: blur(6px);
 }
 
-.circle-1 { top: 20%; left: 10%; }
-.circle-2 { bottom: 15%; right: 12%; }
-.circle-3 { top: 55%; right: 30%; }
+.circle-1 {
+    top: 20%;
+    left: 10%;
+}
+
+.circle-2 {
+    bottom: 15%;
+    right: 12%;
+}
+
+.circle-3 {
+    top: 55%;
+    right: 30%;
+}
 
 @media (max-width: 768px) {
-    .booking-hero { padding: calc(var(--spacing-xl) + 70px) 0 var(--spacing-lg); }
-    .booking-hero-title { font-size: 2rem; }
-    .booking-hero-subtitle { font-size: 1rem; }
+    .booking-hero {
+        padding: calc(var(--spacing-xl) + 70px) 0 var(--spacing-lg);
+    }
+
+    .booking-hero-title {
+        font-size: 2rem;
+    }
+
+    .booking-hero-subtitle {
+        font-size: 1rem;
+    }
 }
 
 /* Tighten spacing under booking filter on Pemesanan */
@@ -1015,14 +1075,12 @@ section {
 }
 
 /* ============================================
-   FLOATING WHATSAPP BUTTON
+   FLOATING WHATSAPP BUTTON - HIDDEN
    ============================================ */
 
 .wa-float {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 999;
+    display: none !important;
+    /* HIDDEN - Tombol hijau dihapus */
 }
 
 .wa-float a {
@@ -1442,7 +1500,7 @@ section {
 .booking-filter-section {
     background: linear-gradient(180deg, #EFF1F4 0%, #E9ECEF 100%);
     padding: var(--spacing-2xl) 0;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .filter-container {
@@ -1562,14 +1620,17 @@ section {
     padding: var(--spacing-3xl) 0;
     background: #FFFFFF;
     min-height: 600px;
-    border-top: 1px solid rgba(0,0,0,0.06);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
 
+/* ============================================
+   BOOKING LIST SECTION - SEJAJAR DENGAN NAVBAR
+   Menggunakan padding yang sama dengan navbar
+   ============================================ */
 .booking-list-section .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    /* Paksa padding yang sama dengan global container */
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
 }
 
 .section-header-booking {
@@ -1605,13 +1666,20 @@ section {
     font-weight: 400;
 }
 
+/* ============================================
+   TRANSPORT CARDS GRID - ALIGNED WITH NAVBAR
+   Grid sejajar dengan logo navbar
+   ============================================ */
 .transport-cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--spacing-lg);
+    grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+    gap: 1.5rem;
+    /* 24px gap antar card */
     width: 100%;
     margin: 0;
     padding: 0;
+    justify-content: start;
+    /* Card rata kiri sejajar dengan logo navbar */
 }
 
 .transport-card {
@@ -1625,6 +1693,8 @@ section {
     flex-direction: column;
     height: 100%;
     min-height: 400px;
+    max-width: 320px;
+    /* ✅ Batasi lebar maksimal */
 }
 
 .transport-card:hover {
@@ -1735,23 +1805,45 @@ section {
    COMPANY LOGO & PLACEHOLDER STYLES
    ============================================ */
 
+/* ============================================
+   COMPANY LOGO WRAPPER - MENGISI PENUH
+   Logo header card tanpa ruang kosong
+   ============================================ */
 .company-logo-wrapper {
-    width: 100%;
+    width: calc(100% + 2.5rem);
+    /* ✅ Tambah 2.5rem untuk background sedikit lebih lebar */
+
     height: 160px;
     background: linear-gradient(135deg, #F4A460 0%, #D4956E 100%);
     border-radius: var(--radius-md) var(--radius-md) 0 0;
+
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    margin: -1rem -1rem 1rem -1rem;
+
+    /* ✅ MARGIN NEGATIF: Keluar dari padding card */
+    margin: -1rem -1.25rem 1rem -1.25rem;
+
+    /* ✅ NO PADDING: Gambar mengisi penuh */
+    padding: 0;
 }
 
 .company-logo {
+    /* ✅ FULL WIDTH & HEIGHT */
     width: 100%;
-    height: 100%;
+    height: 160px;
+    display: block;
+    /* Hilangkan spacing inline-element */
+
+    /* ✅ OBJECT FIT CONTAIN - Proporsi terjaga, tidak terdistorsi */
     object-fit: contain;
-    padding: var(--spacing-lg);
+    object-position: center;
+
+    /* ✅ NO PADDING - Logo mengisi penuh area */
+    padding: 0;
+    margin: 0;
+
     transition: transform 0.3s ease;
 }
 
@@ -1872,7 +1964,17 @@ section {
     }
 
     .company-logo-wrapper {
+        width: calc(100% + 2.5rem);
+        /* ✅ Lebih lebar sedikit di tablet */
         height: 140px;
+        padding: 0;
+        margin: -1rem -1.25rem 1rem -1.25rem;
+    }
+
+    .company-logo {
+        width: 100%;
+        height: 140px;
+        display: block;
     }
 
     .logo-placeholder {
@@ -1895,9 +1997,11 @@ section {
         width: 100%;
     }
 
-    /* Transport Cards Responsive */
+    /* Transport Cards Responsive - Mobile */
     .transport-cards-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
+        /* Reduced gap untuk mobile */
     }
 
     .section-header-booking {
@@ -1935,8 +2039,17 @@ section {
     }
 
     .company-logo-wrapper {
+        width: calc(100% + 2.5rem);
+        /* ✅ Lebih lebar sedikit di mobile */
         height: 120px;
-        margin: -1rem -1rem 0.75rem -1rem;
+        margin: -1rem -1.25rem 0.75rem -1.25rem;
+        padding: 0;
+    }
+
+    .company-logo {
+        width: 100%;
+        height: 120px;
+        display: block;
     }
 
     .logo-placeholder {
@@ -2696,85 +2809,111 @@ section {
    ============================================ */
 
 /* Main Footer Container */
+/* ========================================
+   FOOTER PREMIUM - REDESIGNED
+   ======================================== */
+
 .footer-premium {
-    background: linear-gradient(135deg, #2a1f1a 0%, #3d2f27 50%, #2a1f1a 100%);
+    background: linear-gradient(180deg, #3a2f28 0%, #2d241e 50%, #251d19 100%);
     color: rgba(255, 255, 255, 0.85);
-    padding: 4rem 0 2rem;
+    padding: 0;
     position: relative;
     overflow: hidden;
-    border-top: 1px solid rgba(215, 165, 122, 0.2);
 }
 
-/* Decorative background element */
-.footer-premium::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: -50%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(212, 149, 110, 0.03) 0%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 0;
+/* Custom Container with Proper Padding */
+.footer-container-custom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 6rem 2rem 6rem;
+    box-sizing: border-box;
 }
 
-/* Grid Layout - 4 Columns */
+/* Footer Premium Container - Standard for all pages */
+.footer-premium .container {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+}
+
+/* Top Divider Line - Centered & Elegant */
+.footer-divider-top {
+    width: 60%;
+    max-width: 800px;
+    height: 1px;
+    background: rgba(212, 149, 110, 0.3);
+    margin: 0 auto 3rem auto;
+    display: none;
+    /* HIDDEN - Garis dihapus */
+}
+
+/* Grid Layout - 3 Equal Columns */
 .footer-grid-premium {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 3rem;
-    margin-bottom: 3rem;
-    position: relative;
-    z-index: 1;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4rem;
+    margin-bottom: 2.5rem;
+    align-items: start;
 }
 
 /* Section Container */
 .footer-section-premium {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: flex-start;
+    /* Ensure content aligns to start */
 }
 
 /* Section Heading */
 .footer-heading-premium {
     font-size: 1.15rem;
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.95);
-    margin: 0;
-    letter-spacing: 0.5px;
+    color: #FFFFFF;
+    margin: 0 0 0.75rem 0;
+    letter-spacing: 0.3px;
+    width: 100%;
 }
 
-/* Decorative Separator */
+/* Footer Separator Line - Under Headings */
 .footer-separator-premium {
     width: 40px;
-    height: 3px;
-    background: linear-gradient(90deg, #d7a57a 0%, rgba(215, 165, 122, 0.2) 100%);
+    height: 2px;
+    background: linear-gradient(90deg, #D4956E 0%, #B8704D 100%);
+    margin: 0 0 1.25rem 0;
     border-radius: 2px;
-    margin: 0.5rem 0;
 }
 
 /* Body Text */
 .footer-text-premium {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: rgba(255, 255, 255, 0.80);
-    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 1.5rem 0;
+    width: 100%;
 }
 
-/* Label Text */
-.footer-label-premium {
-    font-size: 0.9rem;
+/* Operating Hours Box - Minimalist Card */
+.footer-hours-box {
+    background: rgba(212, 149, 110, 0.06);
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 149, 110, 0.15);
+    margin-top: 0.5rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-hours-label {
+    font-size: 0.85rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.90);
+    color: rgba(255, 255, 255, 0.85);
     margin: 0 0 0.5rem 0;
 }
 
-/* Address Text */
-.footer-address {
-    color: rgba(255, 255, 255, 0.75);
+.footer-hours-text {
     font-size: 0.9rem;
     line-height: 1.6;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
 }
 
 /* Links List */
@@ -2784,88 +2923,158 @@ section {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+.footer-links-premium li {
+    margin: 0;
+    padding: 0;
 }
 
 /* Link Items */
 .footer-links-premium a {
-    color: rgba(255, 255, 255, 0.80);
+    color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
-    display: inline-block;
-    position: relative;
-}
-
-/* Link Underline Animation */
-.footer-links-premium a::before {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #d7a57a 0%, transparent 100%);
-    transition: width 0.3s ease;
+    display: block;
+    line-height: 1.6;
 }
 
 .footer-links-premium a:hover {
-    color: rgba(215, 165, 122, 0.95);
-}
-
-.footer-links-premium a:hover::before {
-    width: 30px;
-}
-
-/* Contact Links */
-.footer-link-contact {
-    color: rgba(215, 165, 122, 0.90);
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.footer-link-contact:hover {
-    color: #d7a57a;
-    transform: translateX(4px);
+    color: #D4956E;
+    transform: translateX(3px);
 }
 
 /* Contact Item */
 .footer-contact-item {
     margin-bottom: 1.5rem;
     display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.85rem;
+    width: 100%;
+}
+
+.footer-contact-icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.9;
+}
+
+.footer-contact-content {
+    display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    flex: 1;
 }
 
-/* Operating Hours Box */
-.footer-hours-box {
-    background: rgba(215, 165, 122, 0.08);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border-left: 3px solid rgba(215, 165, 122, 0.4);
-    margin-top: 0.5rem;
-}
-
-.footer-hours-box p {
+.footer-contact-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
     margin: 0;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+
+/* Footer Label Premium - For Hours and Contact Labels */
+.footer-label-premium {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0 0 0.5rem 0;
+}
+
+/* Contact Links */
+.footer-link-contact {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: inline-block;
+    line-height: 1.5;
+}
+
+.footer-link-contact:hover {
+    color: #D4956E;
+}
+
+/* Address Text */
+.footer-address-text {
     font-size: 0.9rem;
-    line-height: 1.6;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+}
+
+/* Footer Address - Alternative class name */
+.footer-address {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+    margin: 0;
+}
+
+/* Middle Divider Line - Centered & Elegant */
+.footer-divider-middle {
+    width: 60%;
+    max-width: 800px;
+    height: 1px;
+    background: rgba(212, 149, 110, 0.3);
+    margin: 0 auto 2rem auto;
+    display: none;
+    /* HIDDEN - Garis dihapus */
 }
 
 /* Footer Bottom */
 .footer-bottom-premium {
-    border-top: 1px solid rgba(215, 165, 122, 0.15);
-    padding-top: 2rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
-    z-index: 1;
+    padding: 1rem 0;
 }
 
 .footer-copyright-premium {
-    color: rgba(255, 255, 255, 0.65);
-    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.88rem;
     margin: 0;
+    text-align: center;
+}
+
+/* Admin Login Button - Hidden Icon Style */
+.footer-admin-login {
+    position: absolute;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: rgba(212, 149, 110, 0.05);
+    border: 1px solid rgba(212, 149, 110, 0.15);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(212, 149, 110, 0.5);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.footer-admin-login:hover {
+    background: rgba(212, 149, 110, 0.1);
+    border-color: rgba(212, 149, 110, 0.3);
+    color: rgba(212, 149, 110, 0.9);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.footer-admin-login:hover {
+    background: rgba(215, 165, 122, 0.15);
+    border-color: rgba(215, 165, 122, 0.4);
+    color: #D7A57A;
+    transform: translateY(-2px);
 }
 
 /* ============================================
@@ -2874,23 +3083,39 @@ section {
 
 /* Tablet - 2 Columns */
 @media (max-width: 1024px) {
+    .footer-container-custom {
+        padding: 3rem 4rem 2rem 4rem;
+    }
+
     .footer-grid-premium {
         grid-template-columns: repeat(2, 1fr);
         gap: 2.5rem;
         margin-bottom: 2.5rem;
     }
+
+    .footer-divider-top,
+    .footer-divider-middle {
+        width: 70%;
+        max-width: 600px;
+    }
 }
 
 /* Mobile Tablet - Stack */
 @media (max-width: 768px) {
-    .footer-premium {
-        padding: 3rem 0 1.5rem;
+    .footer-container-custom {
+        padding: 2.5rem 2rem 1.5rem 2rem;
     }
 
     .footer-grid-premium {
         grid-template-columns: 1fr;
         gap: 2rem;
         margin-bottom: 2rem;
+    }
+
+    .footer-divider-top,
+    .footer-divider-middle {
+        width: 80%;
+        max-width: 500px;
     }
 
     .footer-heading-premium {
@@ -2912,13 +3137,19 @@ section {
 
 /* Mobile Extra Small */
 @media (max-width: 425px) {
-    .footer-premium {
-        padding: 2rem 0 1rem;
+    .footer-container-custom {
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
     }
 
     .footer-grid-premium {
         gap: 1.5rem;
         margin-bottom: 1.5rem;
+    }
+
+    .footer-divider-top,
+    .footer-divider-middle {
+        width: 90%;
+        max-width: 400px;
     }
 
     .footer-heading-premium {
@@ -2936,10 +3167,6 @@ section {
     .footer-copyright-premium {
         font-size: 0.8rem;
     }
-
-    .footer-separator-premium {
-        width: 30px;
-    }
 }
 
 /* ============================================
@@ -2948,21 +3175,28 @@ section {
 
 /* Wrapper untuk logo maskapai di halaman pemesanan */
 .page-pemesanan .company-logo-wrapper {
-    /* Ukuran yang proporsional dengan card */
-    height: 140px;
-    
+    /* ✅ Tambah 2.5rem untuk background sedikit lebih lebar */
+    width: calc(100% + 2.5rem);
+    height: 160px;
+
     /* Background subtle dan profesional */
     background: linear-gradient(135deg, #F5F5F5 0%, #EEEEEE 100%);
-    
-    /* Padding untuk spacing */
-    padding: var(--spacing-md);
-    
-    /* Container styling */
+
+    /* ✅ MARGIN NEGATIF: Keluar dari padding card kiri-kanan */
+    margin: -1rem -1.25rem 1rem -1.25rem;
+
+    /* ✅ NO PADDING: Logo mengisi penuh */
+    padding: 0;
+
+    /* Container styling - CENTER SEMPURNA */
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    
+
+    /* Border radius hanya atas untuk mengikuti card */
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+
     /* Transisi untuk wrapper */
     transition: background-color 0.3s ease;
 }
@@ -2974,16 +3208,26 @@ section {
 
 /* GRAYSCALE DEFAULT - Logo image styling di halaman pemesanan */
 .page-pemesanan .company-logo {
-    /* Ukuran proporsional */
-    max-width: 90%;
-    max-height: 90%;
-    
+    /* ✅ FULL WIDTH & HEIGHT */
+    width: 100%;
+    height: 160px;
+    display: block;
+    /* Hilangkan spacing inline-element */
+
+    /* ✅ OBJECT FIT CONTAIN - Logo proporsional, tidak terdistorsi */
+    object-fit: contain;
+    object-position: center;
+
+    /* ✅ NO PADDING/MARGIN */
+    padding: 0;
+    margin: 0;
+
     /* GRAYSCALE DEFAULT */
     filter: grayscale(100%);
-    
+
     /* Opacity netral */
     opacity: 0.85;
-    
+
     /* Transisi smooth untuk effect grayscale ↔ color */
     transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
 }
@@ -2993,10 +3237,10 @@ section {
 .page-pemesanan .transport-card:hover .company-logo {
     /* Menghapus grayscale - tampil warna asli */
     filter: grayscale(0%);
-    
+
     /* Opacity meningkat saat hover */
     opacity: 1;
-    
+
     /* Slight scale untuk interaktivitas */
     transform: scale(1.03);
 }
@@ -3005,13 +3249,13 @@ section {
 .page-pemesanan .logo-placeholder {
     /* Grayscale untuk placeholder juga */
     filter: grayscale(100%);
-    
+
     /* Icon warna neutral */
     color: rgba(107, 114, 128, 0.5);
-    
+
     /* Transisi smooth */
     transition: filter 0.3s ease, color 0.3s ease;
-    
+
     /* Background */
     background: linear-gradient(135deg, #F5F5F5 0%, #EEEEEE 100%) !important;
 }
@@ -3021,7 +3265,7 @@ section {
 .page-pemesanan .transport-card:hover .logo-placeholder {
     /* Menghapus grayscale */
     filter: grayscale(0%);
-    
+
     /* Icon warna lebih terang saat hover */
     color: rgba(107, 114, 128, 0.8);
 }
@@ -3029,20 +3273,33 @@ section {
 /* Responsive adjustments untuk logo maskapai di pemesanan */
 @media (max-width: 768px) {
     .page-pemesanan .company-logo-wrapper {
-        height: 120px;
-        padding: var(--spacing-sm);
+        width: calc(100% + 2.5rem);
+        /* ✅ Lebih lebar sedikit di tablet */
+        height: 140px;
+        margin: -1rem -1.25rem 1rem -1.25rem;
+        padding: 0;
+    }
+
+    .page-pemesanan .company-logo {
+        width: 100%;
+        height: 140px;
+        display: block;
     }
 }
 
 @media (max-width: 425px) {
     .page-pemesanan .company-logo-wrapper {
-        height: 100px;
-        padding: var(--spacing-xs);
+        width: calc(100% + 2.5rem);
+        /* ✅ Lebih lebar sedikit di mobile */
+        height: 120px;
+        margin: -1rem -1.25rem 0.75rem -1.25rem;
+        padding: 0;
     }
-    
+
     .page-pemesanan .company-logo {
-        max-width: 85%;
-        max-height: 85%;
+        width: 100%;
+        height: 120px;
+        display: block;
     }
 }
 
@@ -3143,24 +3400,24 @@ section {
 .page-pemesanan .feature-icon-background {
     /* Soft Pastel Background */
     background: linear-gradient(135deg, #E8BBA8 0%, #F0D5C9 100%);
-    
+
     /* Circle Shape */
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    
+
     /* Center Icon */
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     /* Icon Size & Color */
     font-size: 2.2rem;
     color: var(--color-primary);
-    
+
     /* Transition for Hover */
     transition: all 0.3s ease;
-    
+
     /* Subtle Shadow */
     box-shadow: 0 4px 12px rgba(212, 149, 110, 0.15);
 }
@@ -3169,7 +3426,7 @@ section {
 .page-pemesanan .feature-card:hover .feature-icon-background {
     /* Darker background on hover */
     background: linear-gradient(135deg, #D4956E 0%, #E8BBA8 100%);
-    
+
     /* Scale & Elevate */
     transform: scale(1.1);
     box-shadow: 0 8px 20px rgba(212, 149, 110, 0.25);
@@ -3206,7 +3463,7 @@ section {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-lg);
     }
-    
+
     .page-pemesanan .feature-card {
         min-height: 260px;
     }
@@ -3217,39 +3474,39 @@ section {
     .page-pemesanan .page-pemesanan-features {
         padding: var(--spacing-2xl) 0;
     }
-    
+
     .page-pemesanan .features-header {
         margin-bottom: var(--spacing-2xl);
     }
-    
+
     .page-pemesanan .features-title {
         font-size: 1.8rem;
     }
-    
+
     .page-pemesanan .features-subtitle {
         font-size: 1rem;
     }
-    
+
     .page-pemesanan .features-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-md);
     }
-    
+
     .page-pemesanan .feature-card {
         padding: var(--spacing-xl) var(--spacing-md);
         min-height: 240px;
     }
-    
+
     .page-pemesanan .feature-icon-background {
         width: 70px;
         height: 70px;
         font-size: 1.8rem;
     }
-    
+
     .page-pemesanan .feature-card-title {
         font-size: 1rem;
     }
-    
+
     .page-pemesanan .feature-card-description {
         font-size: 0.9rem;
     }
@@ -3260,44 +3517,44 @@ section {
     .page-pemesanan .page-pemesanan-features {
         padding: var(--spacing-2xl) 0;
     }
-    
+
     .page-pemesanan .features-header {
         margin-bottom: var(--spacing-xl);
     }
-    
+
     .page-pemesanan .features-title {
         font-size: 1.5rem;
     }
-    
+
     .page-pemesanan .features-subtitle {
         font-size: 0.95rem;
     }
-    
+
     .page-pemesanan .features-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .page-pemesanan .feature-card {
         padding: var(--spacing-lg) var(--spacing-md);
         min-height: 220px;
         gap: var(--spacing-md);
     }
-    
+
     .page-pemesanan .feature-icon-wrapper {
         margin-bottom: 0;
     }
-    
+
     .page-pemesanan .feature-icon-background {
         width: 65px;
         height: 65px;
         font-size: 1.6rem;
     }
-    
+
     .page-pemesanan .feature-card-title {
         font-size: 0.95rem;
     }
-    
+
     .page-pemesanan .feature-card-description {
         font-size: 0.85rem;
     }
@@ -3345,7 +3602,7 @@ section {
     line-height: 1.2;
 }
 
-.payment-methods-section > .container > .section-header > p {
+.payment-methods-section>.container>.section-header>p {
     font-size: 1.1rem;
     color: var(--color-gray);
     max-width: 600px;
@@ -3401,24 +3658,24 @@ section {
 .payment-step-icon-background {
     /* Gradient Background - Soft Pastel */
     background: linear-gradient(135deg, #E8BBA8 0%, #F0D5C9 100%);
-    
+
     /* Circle Shape */
     width: 90px;
     height: 90px;
     border-radius: 50%;
-    
+
     /* Center Icon */
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     /* Icon Size & Color */
     font-size: 2.5rem;
     color: var(--color-primary);
-    
+
     /* Transition for Hover */
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     /* Subtle Shadow */
     box-shadow: 0 4px 12px rgba(212, 149, 110, 0.15);
 }
@@ -3427,10 +3684,10 @@ section {
 .payment-step-card:hover .payment-step-icon-background {
     /* Darker Gradient on Hover */
     background: linear-gradient(135deg, #D4956E 0%, #E8BBA8 100%);
-    
+
     /* Scale & Elevate */
     transform: scale(1.15);
-    
+
     /* Enhanced Shadow */
     box-shadow: 0 8px 24px rgba(212, 149, 110, 0.25);
 }
@@ -3466,7 +3723,7 @@ section {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-lg);
     }
-    
+
     .payment-step-card {
         min-height: 280px;
     }
@@ -3477,39 +3734,39 @@ section {
     .payment-methods-section {
         padding: var(--spacing-2xl) 0;
     }
-    
+
     .payment-methods-section .section-header {
         margin-bottom: var(--spacing-2xl);
     }
-    
+
     .payment-methods-section h2 {
         font-size: 1.8rem;
     }
-    
-    .payment-methods-section > .container > .section-header > p {
+
+    .payment-methods-section>.container>.section-header>p {
         font-size: 1rem;
     }
-    
+
     .payment-steps-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .payment-step-card {
         padding: var(--spacing-xl) var(--spacing-md);
         min-height: 240px;
     }
-    
+
     .payment-step-icon-background {
         width: 80px;
         height: 80px;
         font-size: 2rem;
     }
-    
+
     .payment-step-title {
         font-size: 1.1rem;
     }
-    
+
     .payment-step-description {
         font-size: 0.9rem;
     }
@@ -3520,40 +3777,40 @@ section {
     .payment-methods-section {
         padding: var(--spacing-2xl) 0;
     }
-    
+
     .payment-methods-section .section-header {
         margin-bottom: var(--spacing-xl);
     }
-    
+
     .payment-methods-section h2 {
         font-size: 1.5rem;
     }
-    
-    .payment-methods-section > .container > .section-header > p {
+
+    .payment-methods-section>.container>.section-header>p {
         font-size: 0.95rem;
     }
-    
+
     .payment-steps-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-md);
     }
-    
+
     .payment-step-card {
         padding: var(--spacing-lg) var(--spacing-md);
         min-height: 220px;
         gap: var(--spacing-md);
     }
-    
+
     .payment-step-icon-background {
         width: 75px;
         height: 75px;
         font-size: 1.8rem;
     }
-    
+
     .payment-step-title {
         font-size: 1rem;
     }
-    
+
     .payment-step-description {
         font-size: 0.85rem;
     }

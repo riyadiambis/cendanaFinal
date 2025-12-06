@@ -16,8 +16,15 @@ body {
 }
 
 @keyframes pulse-glow-dark {
-    0%, 100% { box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 1px 1px 0 rgba(255, 255, 255, 0.08); }
-    50% { box-shadow: 0 12px 48px rgba(74, 132, 255, 0.25), inset 1px 1px 0 rgba(255, 255, 255, 0.1); }
+
+    0%,
+    100% {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 1px 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    50% {
+        box-shadow: 0 12px 48px rgba(74, 132, 255, 0.25), inset 1px 1px 0 rgba(255, 255, 255, 0.1);
+    }
 }
 
 /* Pastel accent highlights for premium feel */
@@ -64,6 +71,7 @@ body {
         opacity: 0;
         transform: translateY(10px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -116,27 +124,87 @@ body {
     opacity: 0.6;
 }
 
+/* FAQ 3 Column Grid - Responsive */
+.faq-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--admin-accent-purple) !important;
+}
+
+/* Responsive FAQ Grid */
+@media (max-width: 1400px) {
+
+    /* 2 columns for medium screens */
+    #faq-section .section-content>div[style*="grid-template-columns"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 900px) {
+
+    /* 1 column for tablets and mobile */
+    #faq-section .section-content>div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* 2 Column Form Layout - General & Contact Sections */
+#general-section form>div[style*="grid-template-columns"],
+#kontak-section form>div[style*="grid-template-columns"] {
+    transition: grid-template-columns 0.3s ease;
+}
+
+/* Responsive Form Grid */
+@media (max-width: 1024px) {
+
+    /* Stack to 1 column on tablets and mobile */
+    #general-section form>div[style*="grid-template-columns"],
+    #kontak-section form>div[style*="grid-template-columns"] {
+        grid-template-columns: 1fr !important;
+    }
+}
+
 /* Better mobile responsiveness */
 @media (max-width: 768px) {
     .admin-header {
         backdrop-filter: blur(18px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    
+
     .mobile-menu-toggle {
         animation: bounce 2s infinite;
     }
-    
+
     @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {
+
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
             transform: translateY(0);
         }
+
         40% {
             transform: translateY(-5px);
         }
+
         60% {
             transform: translateY(-3px);
         }
+    }
+
+    /* FAQ buttons stacked on mobile */
+    .faq-item>div>div:last-child {
+        flex-direction: column !important;
+    }
+
+    .faq-item .btn {
+        width: 100% !important;
     }
 }
 
@@ -163,8 +231,13 @@ body * {
 }
 
 @keyframes loading-shimmer {
-    0% { left: -100%; }
-    100% { left: 100%; }
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
 }
 
 /* Enhanced scrollbar styling - Dark Glass Theme */
@@ -210,6 +283,7 @@ body * {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -239,9 +313,17 @@ body * {
 }
 
 @keyframes successPulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 /* Pastel accent animations for special UI elements */
@@ -281,18 +363,19 @@ body * {
 
 /* Better print styles */
 @media print {
+
     .sidebar,
     .mobile-menu-toggle,
     .dark-mode-toggle,
     .admin-header {
         display: none !important;
     }
-    
+
     .admin-content {
         margin-left: 0 !important;
         padding: 0 !important;
     }
-    
+
     .content-section {
         page-break-inside: avoid;
     }

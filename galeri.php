@@ -3,6 +3,29 @@
  * HALAMAN GALERI - CV. CENDANA TRAVEL
  */
 
+// ✅ Load database
+require_once 'config/database.php';
+require_once 'includes/functions.php';
+
+// ✅ Anti-cache headers
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Cache-Control: post-check=0, pre-check=0', false);
+header('Pragma: no-cache');
+header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+
+// ✅ Load data galeri dari database
+$galleries = getAllGallery();
+
+// ✅ Fix image path - tambahkan "uploads/" prefix jika belum ada
+foreach ($galleries as &$gallery) {
+    if (!empty($gallery['image'])) {
+        if (strpos($gallery['image'], 'uploads/') !== 0) {
+            $gallery['image'] = 'uploads/' . $gallery['image'];
+        }
+    }
+}
+unset($gallery); // Break reference
+
 $companyInfoData = [
     'name' => 'CV. Cendana Travel',
     'whatsapp' => '6285821841529',
@@ -33,8 +56,8 @@ $companyInfoData = [
                     <li><a href="index.php">Beranda</a></li>
                     <li><a href="pemesanan.php">Pemesanan</a></li>
                     <li><a href="galeri.php" class="active">Galeri</a></li>
-                    <li><a href="kontak.php">Kontak</a></li>
                     <li><a href="faq.php">FAQ</a></li>
+                    <li><a href="kontak.php">Kontak</a></li>
                 </ul>
             </nav>
             
@@ -98,104 +121,29 @@ $companyInfoData = [
 
             <!-- Gallery Grid -->
             <div class="gallery-grid">
-                <!-- Gallery Item 1 -->
-                <article class="gallery-item" data-category="kantor">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Kantor Pusat">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Kantor Pusat Kami</h3>
-                            <p>Lokasi strategis di Samarinda</p>
-                        </div>
+                <?php if (count($galleries) > 0): ?>
+                    <?php foreach ($galleries as $gallery): ?>
+                        <article class="gallery-item" data-category="<?= htmlspecialchars($gallery['category'] ?? 'all') ?>">
+                            <img src="<?= htmlspecialchars($gallery['image']) ?>" 
+                                 alt="<?= htmlspecialchars($gallery['title']) ?>"
+                                 onerror="this.src='https://via.placeholder.com/500x300?text=Image+Not+Found'">
+                            <div class="gallery-overlay">
+                                <div class="gallery-overlay-content">
+                                    <h3><?= htmlspecialchars($gallery['title']) ?></h3>
+                                    <?php if (!empty($gallery['description'])): ?>
+                                        <p><?= htmlspecialchars($gallery['description']) ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <i class="icon icon-image" style="font-size: 4rem; color: var(--color-light-gray); margin-bottom: 1rem;"></i>
+                        <p style="color: var(--color-gray); font-size: 1.1rem;">Belum ada foto di galeri</p>
+                        <p style="color: var(--color-light-gray); font-size: 0.9rem;">Silakan tambahkan foto melalui Admin Panel</p>
                     </div>
-                </article>
-
-                <!-- Gallery Item 2 -->
-                <article class="gallery-item" data-category="fasilitas">
-                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Ruang Kerja">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Area Tunggu Nyaman</h3>
-                            <p>Fasilitas lengkap dengan AC</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 3 -->
-                <article class="gallery-item" data-category="layanan">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Tim Profesional">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Tim Profesional</h3>
-                            <p>Siap melayani Anda</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 4 -->
-                <article class="gallery-item" data-category="fasilitas">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Layanan Booking">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Sistem Booking Modern</h3>
-                            <p>Mudah dan terpercaya</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 5 -->
-                <article class="gallery-item" data-category="layanan">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Konsultasi">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Konsultasi Gratis</h3>
-                            <p>Kami siap membantu</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 6 -->
-                <article class="gallery-item" data-category="kantor">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Meeting Room">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Ruang Rapat</h3>
-                            <p>Untuk acara dan pertemuan</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 7 -->
-                <article class="gallery-item" data-category="fasilitas">
-                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="WiFi Gratis">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>WiFi Gratis</h3>
-                            <p>Akses internet cepat</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 8 -->
-                <article class="gallery-item" data-category="layanan">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Customer Service">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Pelayanan Terbaik</h3>
-                            <p>Kepuasan pelanggan adalah prioritas</p>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Gallery Item 9 -->
-                <article class="gallery-item" data-category="kantor">
-                    <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Lobby">
-                    <div class="gallery-overlay">
-                        <div class="gallery-overlay-content">
-                            <h3>Lobby Utama</h3>
-                            <p>Pintu masuk yang elegan</p>
-                        </div>
-                    </div>
-                </article>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -221,7 +169,7 @@ $companyInfoData = [
     <!-- Footer Premium -->
     <footer class="footer-premium">
         <div class="container">
-            <!-- Main Grid: 4 Kolom -->
+            <!-- Main Grid: 3 Kolom -->
             <div class="footer-grid-premium">
                 
                 <!-- KOLOM 1: Tentang Kami -->
@@ -229,66 +177,72 @@ $companyInfoData = [
                     <h3 class="footer-heading-premium">Tentang Kami</h3>
                     <div class="footer-separator-premium"></div>
                     <p class="footer-text-premium">
-                        <?php echo htmlspecialchars($companyInfoData['description']); ?>
+                        Kami adalah penyedia layanan travel terpercaya dengan pengalaman lebih dari 10 tahun dalam melayani perjalanan Anda. Berawal dari lokasi sederhana, kini kami siap melayani kebutuhan liburan Anda.
                     </p>
                     <div class="footer-hours-box">
                         <p class="footer-label-premium">Jam Operasional:</p>
                         <p class="footer-text-premium">
-                            <?php echo htmlspecialchars($companyInfoData['hours']); ?>
+                            Senin - Minggu: 08:00 - 22:00 WIB
                         </p>
                     </div>
                 </section>
 
-                <!-- KOLOM 2: Menu Cepat -->
+                <!-- KOLOM 2: Navigasi -->
                 <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Menu Cepat</h3>
+                    <h3 class="footer-heading-premium">Navigasi</h3>
                     <div class="footer-separator-premium"></div>
                     <ul class="footer-links-premium">
                         <li><a href="index.php">Beranda</a></li>
                         <li><a href="pemesanan.php">Pemesanan</a></li>
-                        <li><a href="galeri.php">Galeri</a></li>
-                        <li><a href="kontak.php">Kontak</a></li>
+                        <li><a href="galeri.php">Galen</a></li>
                         <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="kontak.php">Kontak</a></li>
                     </ul>
                 </section>
 
-                <!-- KOLOM 3: Layanan Kami -->
-                <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Layanan Kami</h3>
-                    <div class="footer-separator-premium"></div>
-                    <ul class="footer-links-premium">
-                        <li><a href="#">Paket Liburan</a></li>
-                        <li><a href="#">Tiket Pesawat</a></li>
-                        <li><a href="#">Hotel & Akomodasi</a></li>
-                        <li><a href="#">Tour Guide</a></li>
-                    </ul>
-                </section>
-
-                <!-- KOLOM 4: Hubungi Kami -->
+                <!-- KOLOM 3: Hubungi Kami -->
                 <section class="footer-section-premium">
                     <h3 class="footer-heading-premium">Hubungi Kami</h3>
                     <div class="footer-separator-premium"></div>
                     <div class="footer-contact-item">
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact">📱 WhatsApp</a>
+                        <i class="fab fa-whatsapp" style="color: #25D366; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">WhatsApp</p>
+                            <a href="https://wa.me/6285821841529" class="footer-link-contact">
+                                0858-2184-1529
+                            </a>
+                        </div>
                     </div>
                     <div class="footer-contact-item">
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact"><?php echo htmlspecialchars($companyInfoData['whatsapp']); ?></a>
+                        <i class="fas fa-envelope" style="color: #E8B89A; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">Email</p>
+                            <a href="mailto:admin@cendanatravel.com" class="footer-link-contact">
+                                admin@cendanatravel.com
+                            </a>
+                        </div>
                     </div>
                     <div class="footer-contact-item">
-                        <a href="mailto:<?php echo htmlspecialchars($companyInfoData['email']); ?>" class="footer-link-contact">📧 Email</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <p class="footer-label-premium">Alamat:</p>
-                        <p class="footer-text-premium"><?php echo htmlspecialchars($companyInfoData['address']); ?></p>
+                        <i class="fas fa-map-marker-alt" style="color: #E8B89A; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">Alamat</p>
+                            <p class="footer-text-premium footer-address">
+                                Jl. Cendana No.8, Tlk. Lerong Ulu, Kec. Sungai Kunang, Kota Samarinda, Kalimantan Timur 75127
+                            </p>
+                        </div>
                     </div>
                 </section>
+
             </div>
 
-            <!-- Footer Bottom -->
+            <!-- Footer Bottom: Copyright & Admin Login -->
             <div class="footer-bottom-premium">
                 <p class="footer-copyright-premium">
-                    &copy; 2024 <?php echo htmlspecialchars($companyInfoData['name']); ?>. All rights reserved.
+                    &copy; 2024 Cv. Cendana Travel. All rights reserved.
                 </p>
+                <a href="auth.php" class="footer-admin-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
             </div>
         </div>
     </footer>

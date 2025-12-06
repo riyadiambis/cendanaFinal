@@ -50,8 +50,8 @@ $faqData = getFaqData();
                     <li><a href="index.php">Beranda</a></li>
                     <li><a href="pemesanan.php">Pemesanan</a></li>
                     <li><a href="galeri.php">Galeri</a></li>
-                    <li><a href="kontak.php">Kontak</a></li>
                     <li><a href="faq.php" class="active">FAQ</a></li>
+                    <li><a href="kontak.php">Kontak</a></li>
                 </ul>
             </nav>
             
@@ -169,7 +169,7 @@ $faqData = getFaqData();
     <!-- Footer Premium -->
     <footer class="footer-premium">
         <div class="container">
-            <!-- Main Grid: 4 Kolom -->
+            <!-- Main Grid: 3 Kolom -->
             <div class="footer-grid-premium">
                 
                 <!-- KOLOM 1: Tentang Kami -->
@@ -177,66 +177,72 @@ $faqData = getFaqData();
                     <h3 class="footer-heading-premium">Tentang Kami</h3>
                     <div class="footer-separator-premium"></div>
                     <p class="footer-text-premium">
-                        <?php echo htmlspecialchars($companyInfoData['description']); ?>
+                        Kami adalah penyedia layanan travel terpercaya dengan pengalaman lebih dari 10 tahun dalam melayani perjalanan Anda. Berawal dari lokasi sederhana, kini kami siap melayani kebutuhan liburan Anda.
                     </p>
                     <div class="footer-hours-box">
                         <p class="footer-label-premium">Jam Operasional:</p>
                         <p class="footer-text-premium">
-                            <?php echo htmlspecialchars($companyInfoData['hours']); ?>
+                            Senin - Minggu: 08:00 - 22:00 WIB
                         </p>
                     </div>
                 </section>
 
-                <!-- KOLOM 2: Menu Cepat -->
+                <!-- KOLOM 2: Navigasi -->
                 <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Menu Cepat</h3>
+                    <h3 class="footer-heading-premium">Navigasi</h3>
                     <div class="footer-separator-premium"></div>
                     <ul class="footer-links-premium">
                         <li><a href="index.php">Beranda</a></li>
                         <li><a href="pemesanan.php">Pemesanan</a></li>
-                        <li><a href="galeri.php">Galeri</a></li>
-                        <li><a href="kontak.php">Kontak</a></li>
+                        <li><a href="galeri.php">Galen</a></li>
                         <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="kontak.php">Kontak</a></li>
                     </ul>
                 </section>
 
-                <!-- KOLOM 3: Layanan Kami -->
-                <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Layanan Kami</h3>
-                    <div class="footer-separator-premium"></div>
-                    <ul class="footer-links-premium">
-                        <li><a href="#">Paket Liburan</a></li>
-                        <li><a href="#">Tiket Pesawat</a></li>
-                        <li><a href="#">Hotel & Akomodasi</a></li>
-                        <li><a href="#">Tour Guide</a></li>
-                    </ul>
-                </section>
-
-                <!-- KOLOM 4: Hubungi Kami -->
+                <!-- KOLOM 3: Hubungi Kami -->
                 <section class="footer-section-premium">
                     <h3 class="footer-heading-premium">Hubungi Kami</h3>
                     <div class="footer-separator-premium"></div>
                     <div class="footer-contact-item">
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact">📱 WhatsApp</a>
+                        <i class="fab fa-whatsapp" style="color: #25D366; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">WhatsApp</p>
+                            <a href="https://wa.me/6285821841529" class="footer-link-contact">
+                                0858-2184-1529
+                            </a>
+                        </div>
                     </div>
                     <div class="footer-contact-item">
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact"><?php echo htmlspecialchars($companyInfoData['whatsapp']); ?></a>
+                        <i class="fas fa-envelope" style="color: #E8B89A; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">Email</p>
+                            <a href="mailto:admin@cendanatravel.com" class="footer-link-contact">
+                                admin@cendanatravel.com
+                            </a>
+                        </div>
                     </div>
                     <div class="footer-contact-item">
-                        <a href="mailto:<?php echo htmlspecialchars($companyInfoData['email']); ?>" class="footer-link-contact">📧 Email</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <p class="footer-label-premium">Alamat:</p>
-                        <p class="footer-text-premium"><?php echo htmlspecialchars($companyInfoData['address']); ?></p>
+                        <i class="fas fa-map-marker-alt" style="color: #E8B89A; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">Alamat</p>
+                            <p class="footer-text-premium footer-address">
+                                Jl. Cendana No.8, Tlk. Lerong Ulu, Kec. Sungai Kunang, Kota Samarinda, Kalimantan Timur 75127
+                            </p>
+                        </div>
                     </div>
                 </section>
+
             </div>
 
-            <!-- Footer Bottom -->
+            <!-- Footer Bottom: Copyright & Admin Login -->
             <div class="footer-bottom-premium">
                 <p class="footer-copyright-premium">
-                    &copy; 2024 <?php echo htmlspecialchars($companyInfoData['name']); ?>. All rights reserved.
+                    &copy; 2024 Cv. Cendana Travel. All rights reserved.
                 </p>
+                <a href="auth.php" class="footer-admin-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
             </div>
         </div>
     </footer>

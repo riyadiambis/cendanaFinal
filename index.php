@@ -31,8 +31,8 @@ $companyInfoData = [
                     <li><a href="index.php" class="active">Beranda</a></li>
                     <li><a href="pemesanan.php">Pemesanan</a></li>
                     <li><a href="galeri.php">Galeri</a></li>
-                    <li><a href="kontak.php">Kontak</a></li>
                     <li><a href="faq.php">FAQ</a></li>
+                    <li><a href="kontak.php">Kontak</a></li>
                 </ul>
             </nav>
             
@@ -107,57 +107,64 @@ $companyInfoData = [
         </div>
     </section>
 
-    <!-- Curved Divider -->
-    <div class="section-divider">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#FFF5F0"></path>
-        </svg>
-    </div>
-
     <!-- Services Section Dynamic -->
     <section class="services-section services-dynamic">
         <div class="container">
             <div class="section-header fade-in-up">
-                <h2>Layanan Unggulan Kami</h2>
-                <p>Kami menyediakan berbagai layanan travel profesional dengan standar kualitas internasional untuk kenyamanan perjalanan Anda</p>
+                <h2>Jelajahi Dunia,<br><span style="color: #D4956E;">Kapan Saja & Dimana Saja</span></h2>
+                <p>Pilih moda transportasi favorit Anda dengan pelayanan premium.</p>
             </div>
 
             <div class="services-asymmetric-grid">
-                <!-- Featured Service Card (Large) -->
+                <!-- Featured Service Card (Large) - Pesawat -->
                 <article class="service-card-featured fade-in-up" style="animation-delay: 0.1s;">
-                    <div class="service-icon">
-                        <i class="icon icon-plane"></i>
+                    <span class="popular-badge">Terpopuler</span>
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=1200&h=600&fit=crop&q=80" alt="Tiket Pesawat">
                     </div>
-                    <h3>Tiket Pesawat</h3>
-                    <p>Pesan tiket pesawat ke seluruh kota besar di Indonesia dengan harga kompetitif dan pelayanan terbaik. Proses booking mudah, cepat, dan terpercaya dengan sistem pembayaran yang aman.</p>
+                    <div class="service-content">
+                        <div class="service-icon-inline">
+                            <h3>Tiket Pesawat</h3>
+                        </div>
+                        <p>Terbang ke seluruh destinasi domestik dan internasional dengan harga kompetitif. Proses booking instan dan terpercaya dengan sistem pembayaran yang aman.</p>
+                        <ul class="service-features">
+                            <li>✓ Penerbangan Internasional & Domestik</li>
+                            <li>✓ Proses Check-in Mudah</li>
+                            <li>✓ Garansi Harga Terbaik</li>
+                        </ul>
+                        <a href="pemesanan.php?type=pesawat" class="service-btn">Cari Penerbangan →</a>
+                    </div>
                 </article>
                 
                 <!-- Regular Service Cards (Small) -->
                 <article class="service-card-small fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="service-icon">
-                        <i class="icon icon-ship"></i>
+                    <div class="service-image-small">
+                        <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=800&h=500&fit=crop&q=80" alt="Tiket Bus Premium">
                     </div>
-                    <h3>Tiket Kapal</h3>
-                    <p>Jelajahi keindahan laut dengan layanan booking kapal penumpang yang nyaman dan aman ke berbagai pelabuhan.</p>
+                    <div class="service-content-small">
+                        <div class="service-icon-inline">
+                            <h3>Tiket Bus Premium</h3>
+                        </div>
+                        <p>Perjalanan darat yang nyaman dengan armada terbaru dan fasilitas lengkap untuk perjalanan antar kota yang nyaman dan terjangkau.</p>
+                        <a href="pemesanan.php?type=bus" class="service-btn-small">Pesan Tiket Bus</a>
+                    </div>
                 </article>
                 
                 <article class="service-card-small fade-in-up" style="animation-delay: 0.3s;">
-                    <div class="service-icon">
-                        <i class="icon icon-bus"></i>
+                    <div class="service-image-small">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=500&fit=crop&q=80" alt="Tiket Kapal Laut">
                     </div>
-                    <h3>Tiket Bus</h3>
-                    <p>Armada bus premium dengan fasilitas lengkap untuk perjalanan antar kota yang nyaman dan terjangkau.</p>
+                    <div class="service-content-small">
+                        <div class="service-icon-inline">
+                            <h3>Tiket Kapal Laut</h3>
+                        </div>
+                        <p>Nikmati perjalanan laut antar pulau dengan aman dan pemandangan indah. Booking kapal penumpang yang nyaman dan aman ke berbagai pelabuhan.</p>
+                        <a href="pemesanan.php?type=kapal" class="service-btn-small">Pesan Tiket Kapal</a>
+                    </div>
                 </article>
             </div>
         </div>
     </section>
-
-    <!-- Curved Divider -->
-    <div class="section-divider">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="#FFF5F0"></path>
-        </svg>
-    </div>
 
     <!-- Why Us Section Split Screen -->
     <section class="why-us-section why-us-split">
@@ -254,13 +261,6 @@ $companyInfoData = [
         </div>
     </section>
 
-    <!-- Curved Divider -->
-    <div class="section-divider">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#FFF5F0"></path>
-        </svg>
-    </div>
-
     <!-- SECTION 2: TESTIMONI PELANGGAN - SLIDER -->
     <section class="testimonials-new-section testimonials-slider">
         <div class="container">
@@ -342,104 +342,84 @@ $companyInfoData = [
         </div>
     </section>
 
-    <!-- Curved Divider -->
-    <div class="section-divider">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="#FFF5F0"></path>
-        </svg>
-    </div>
-
-    <!-- SECTION 3: CARA PEMESANAN - TIMELINE -->
-    <section class="booking-steps-section booking-timeline">
+    <!-- SECTION 3: CARA PEMESANAN - ALTERNATING LAYOUT -->
+    <section class="booking-steps-alternating">
         <div class="container">
-            <div class="section-header fade-in-up">
+            <div class="section-header-booking fade-in-up">
                 <h2>Bagaimana Cara Memesan?</h2>
-                <p>Proses pemesanan yang mudah dan cepat dalam 3 langkah sederhana</p>
+                <p>Proses pemesanan tiket yang mudah dan cepat dalam 3 langkah sederhana.</p>
             </div>
 
-            <div class="timeline-container">
-                <!-- Timeline Line -->
-                <div class="timeline-line"></div>
-
-                <!-- Step 1 -->
-                <div class="timeline-step fade-in-up" style="animation-delay: 0.1s;">
-                    <div class="timeline-marker">1</div>
-                    <div class="timeline-content">
-                        <h3>Pilih Layanan</h3>
-                        <p>Kunjungi halaman Pemesanan dan pilih jenis transportasi yang Anda inginkan (pesawat, kapal, atau bus).</p>
-                    </div>
+            <!-- Step 1: Image Left, Content Right -->
+            <div class="booking-step-row booking-step-left fade-in-up" style="animation-delay: 0.1s;">
+                <div class="booking-step-image">
+                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80" alt="Pilih Layanan">
                 </div>
-
-                <!-- Step 2 -->
-                <div class="timeline-step fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="timeline-marker">2</div>
-                    <div class="timeline-content">
-                        <h3>Hubungi Admin</h3>
-                        <p>Klik "Pesan Sekarang" dan isi form. Anda akan diarahkan ke WhatsApp admin untuk konfirmasi.</p>
-                    </div>
+                <div class="booking-step-content">
+                    <h3>Pilih Layanan</h3>
+                    <p>Kunjungi halaman pemesanan utama kami. Di sana Anda dapat memilih jenis transportasi yang diinginkan (Pesawat, Kapal Laut, atau Bus) sesuai dengan tujuan dan kebutuhan perjalanan Anda.</p>
                 </div>
+            </div>
 
-                <!-- Step 3 -->
-                <div class="timeline-step fade-in-up" style="animation-delay: 0.3s;">
-                    <div class="timeline-marker">3</div>
-                    <div class="timeline-content">
-                        <h3>Lakukan Pembayaran</h3>
-                        <p>Transfer pembayaran sesuai instruksi. E-ticket akan dikirimkan setelah konfirmasi pembayaran.</p>
-                    </div>
+            <!-- Step 2: Content Left, Image Right -->
+            <div class="booking-step-row booking-step-right fade-in-up" style="animation-delay: 0.2s;">
+                <div class="booking-step-content">
+                    <h3>Hubungi Admin</h3>
+                    <p>Setelah memilih layanan, klik tombol "Pesan Sekarang". Isi formulir singkat dan Anda akan diarahkan otomatis ke WhatsApp admin kami untuk konfirmasi ketersediaan dan harga terkini.</p>
+                </div>
+                <div class="booking-step-image">
+                    <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=800&q=80" alt="Hubungi Admin">
+                </div>
+            </div>
+
+            <!-- Step 3: Image Left, Content Right -->
+            <div class="booking-step-row booking-step-left fade-in-up" style="animation-delay: 0.3s;">
+                <div class="booking-step-image">
+                    <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=800&q=80" alt="Lakukan Pembayaran">
+                </div>
+                <div class="booking-step-content">
+                    <h3>Lakukan Pembayaran</h3>
+                    <p>Lakukan transfer pembayaran sesuai instruksi yang diberikan oleh admin. E-ticket resmi akan dikirimkan ke email atau WhatsApp Anda segera setelah pembayaran terkonfirmasi.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Curved Divider -->
-    <div class="section-divider">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#FFF5F0"></path>
-        </svg>
-    </div>
-
-    <!-- SECTION 4: GALERI FOTO - MASONRY -->
-    <section class="gallery-new-section gallery-masonry">
+    <!-- SECTION 4: GALERI FOTO - POLAROID CARDS -->
+    <section class="gallery-polaroid-section">
         <div class="container">
-            <div class="section-header fade-in-up">
-                <h2>Galeri Perjalanan</h2>
-                <p>Koleksi momen indah dari perjalanan bersama kami</p>
-            </div>
-
-            <div class="masonry-grid">
-                <!-- Gallery Item 1 - Tall -->
-                <article class="masonry-item tall fade-in" style="animation-delay: 0.1s;">
-                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Destinasi Pantai">
-                    <div class="gallery-new-overlay">
-                        <h4>Destinasi Pantai</h4>
+            <div class="gallery-polaroid-wrapper">
+                
+                <!-- Polaroid Cards Stack -->
+                <div class="polaroid-cards-stack">
+                    <!-- Card Left -->
+                    <div class="polaroid-card-home card-left-home">
+                        <img src="https://images.unsplash.com/photo-1504609773096-104ff2c73ba4?auto=format&fit=crop&w=600&q=80" alt="Perencanaan Perjalanan">
                     </div>
-                </article>
-
-                <!-- Gallery Item 2 - Regular -->
-                <article class="masonry-item fade-in" style="animation-delay: 0.2s;">
-                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Gunung Indah">
-                    <div class="gallery-new-overlay">
-                        <h4>Gunung Indah</h4>
+                    
+                    <!-- Card Center -->
+                    <div class="polaroid-card-home card-center-home">
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80" alt="Petualangan Gunung">
                     </div>
-                </article>
-
-                <!-- Gallery Item 3 - Regular -->
-                <article class="masonry-item fade-in" style="animation-delay: 0.3s;">
-                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Petualangan Laut">
-                    <div class="gallery-new-overlay">
-                        <h4>Petualangan Laut</h4>
+                    
+                    <!-- Card Right -->
+                    <div class="polaroid-card-home card-right-home">
+                        <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80" alt="Perjalanan Darat">
                     </div>
-                </article>
+                </div>
+                
+                <!-- Text Content -->
+                <div class="gallery-polaroid-content">
+                    <h2 class="gallery-polaroid-title">Galeri Perjalanan</h2>
+                    <p class="gallery-polaroid-subtitle">
+                        Temukan inspirasi destinasi wisata terbaik dari koleksi perjalanan kami yang tak terlupakan.
+                    </p>
+                    <a href="galeri.php" class="btn-gallery-polaroid">Lihat Selengkapnya</a>
+                </div>
+                
             </div>
         </div>
     </section>
-
-    <!-- Curved Divider -->
-    <div class="section-divider">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" fill="#FFFFFF"></path>
-        </svg>
-    </div>
 
     <!-- SECTION 6: LEGALITAS & KEAMANAN - COMPACT 2x2 -->
     <section class="legality-security-section legality-compact">
@@ -519,80 +499,95 @@ $companyInfoData = [
 
     <!-- Footer Premium -->
     <footer class="footer-premium">
-        <div class="container">
-            <!-- Main Grid: 4 Kolom -->
+        <div class="footer-container-custom">
+            <!-- Divider Line Top -->
+            <div class="footer-divider-top"></div>
+            
+            <!-- Main Grid: 3 Kolom -->
             <div class="footer-grid-premium">
                 
                 <!-- KOLOM 1: Tentang Kami -->
                 <section class="footer-section-premium">
                     <h3 class="footer-heading-premium">Tentang Kami</h3>
-                    <div class="footer-separator-premium"></div>
                     <p class="footer-text-premium">
-                        <?php echo htmlspecialchars($companyInfoData['description']); ?>
+                        Kami adalah penyedia layanan travel terpercaya dengan pengalaman lebih dari 10 tahun dalam melayani perjalanan Anda. Berawal dari lokasi sederhana, kini kami siap melayani kebutuhan liburan Anda.
                     </p>
                     <div class="footer-hours-box">
-                        <p class="footer-label-premium">Jam Operasional:</p>
-                        <p class="footer-text-premium">
-                            <?php echo htmlspecialchars($companyInfoData['hours']); ?>
+                        <p class="footer-hours-label">Jam Operasional:</p>
+                        <p class="footer-hours-text">
+                            Senin - Minggu: 08:00 - 22:00 WIB
                         </p>
                     </div>
                 </section>
 
-                <!-- KOLOM 2: Menu Cepat -->
+                <!-- KOLOM 2: Navigasi -->
                 <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Menu Cepat</h3>
-                    <div class="footer-separator-premium"></div>
+                    <h3 class="footer-heading-premium">Navigasi</h3>
                     <ul class="footer-links-premium">
                         <li><a href="index.php">Beranda</a></li>
                         <li><a href="pemesanan.php">Pemesanan</a></li>
                         <li><a href="galeri.php">Galeri</a></li>
-                        <li><a href="kontak.php">Kontak</a></li>
                         <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="kontak.php">Kontak</a></li>
                     </ul>
                 </section>
 
-                <!-- KOLOM 3: Layanan Kami -->
-                <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Layanan Kami</h3>
-                    <div class="footer-separator-premium"></div>
-                    <ul class="footer-links-premium">
-                        <li><a href="pemesanan.php">Tiket Pesawat</a></li>
-                        <li><a href="pemesanan.php">Tiket Kapal</a></li>
-                        <li><a href="pemesanan.php">Tiket Bus</a></li>
-                    </ul>
-                </section>
-
-                <!-- KOLOM 4: Hubungi Kami -->
+                <!-- KOLOM 3: Hubungi Kami -->
                 <section class="footer-section-premium">
                     <h3 class="footer-heading-premium">Hubungi Kami</h3>
-                    <div class="footer-separator-premium"></div>
+                    
                     <div class="footer-contact-item">
-                        <p class="footer-label-premium">WhatsApp:</p>
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact">
-                            <?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>
-                        </a>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="footer-contact-icon" style="color: #25D366;">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"/>
+                        </svg>
+                        <div class="footer-contact-content">
+                            <p class="footer-contact-label">WhatsApp</p>
+                            <a href="https://wa.me/6285821841529" class="footer-link-contact">
+                                0858-2184-1529
+                            </a>
+                        </div>
                     </div>
+                    
                     <div class="footer-contact-item">
-                        <p class="footer-label-premium">Email:</p>
-                        <a href="mailto:<?php echo htmlspecialchars($companyInfoData['email']); ?>" class="footer-link-contact">
-                            <?php echo htmlspecialchars($companyInfoData['email']); ?>
-                        </a>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="footer-contact-icon" style="color: #D4956E;">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                        </svg>
+                        <div class="footer-contact-content">
+                            <p class="footer-contact-label">Email</p>
+                            <a href="mailto:admin@cendanatravel.com" class="footer-link-contact">
+                                admin@cendanatravel.com
+                            </a>
+                        </div>
                     </div>
+                    
                     <div class="footer-contact-item">
-                        <p class="footer-label-premium">Alamat:</p>
-                        <p class="footer-text-premium footer-address">
-                            <?php echo $companyInfoData['address']; ?>
-                        </p>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="footer-contact-icon" style="color: #D4956E;">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        <div class="footer-contact-content">
+                            <p class="footer-contact-label">Alamat</p>
+                            <p class="footer-address-text">
+                                Jl. Cendana No.8, Tlk. Lerong Ulu, Kec. Sungai Kunang, Kota Samarinda, Kalimantan Timur 75127
+                            </p>
+                        </div>
                     </div>
                 </section>
 
             </div>
 
-            <!-- Footer Bottom: Copyright -->
+            <!-- Divider Line Middle -->
+            <div class="footer-divider-middle"></div>
+
+            <!-- Footer Bottom: Copyright & Admin Login -->
             <div class="footer-bottom-premium">
                 <p class="footer-copyright-premium">
-                    &copy; 2024 <?php echo htmlspecialchars($companyInfoData['name']); ?>. All rights reserved.
+                    &copy; 2024 Cv. Cendana Travel. All rights reserved.
                 </p>
+                <a href="auth.php" class="footer-admin-login" title="Login Admin">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </footer>

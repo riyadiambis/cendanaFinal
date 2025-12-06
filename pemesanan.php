@@ -1,25 +1,137 @@
 <?php
-// Halaman Pemesanan Tiket
-// CV. Cendana Travel
+/**
+ * Halaman Pemesanan Tiket - CV. Cendana Travel
+ * UPDATED: Sekarang mengambil data dari DATABASE (bukan hardcoded)
+ * FIXED: Auto-refresh data tanpa cache
+ */
 
-$companyInfoData = [
-    'name' => 'CV. Cendana Travel',
-    'whatsapp' => '6285821841529',
-    'instagram' => '@cendanatravel_official',
-    'email' => 'info@cendanatravel.com',
-    'address' => 'Jl. Cendana No.8, Tlk. Lerong Ulu, Kec. Sungai Kunjang<br>Kota Samarinda, Kalimantan Timur 75127',
-    'hours' => 'Senin - Minggu: 08.00 - 22.00 WIB'
+// Disable caching agar data selalu fresh dari database
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+header("Expires: 0");
+
+// Koneksi ke database
+require_once 'config/database.php';
+require_once 'includes/functions.php';
+
+// Ambil company info dari database
+$companyInfoData = getCompanyInfo();
+
+// Fallback jika database belum ada data
+if (empty($companyInfoData)) {
+    $companyInfoData = [
+        'name' => 'CV. Cendana Travel',
+        'whatsapp' => '6285821841529',
+        'instagram' => '@cendanatravel_official',
+        'email' => 'info@cendanatravel.com',
+        'address' => 'Jl. Cendana No.8, Tlk. Lerong Ulu, Kec. Sungai Kunjang<br>Kota Samarinda, Kalimantan Timur 75127',
+        'hours' => 'Senin - Minggu: 08.00 - 22.00 WIB'
+    ];
+}
+
+// Ambil semua data transport services dari database
+$transportServices = getAllTransportServices();
+
+// Pisahkan data berdasarkan tipe transportasi
+$servicesData = [
+    'pesawat' => [],
+    'kapal' => [],
+    'bus' => []
 ];
+
+foreach ($transportServices as $service) {
+    // Hanya ambil data yang aktif
+    if ($service['is_active'] == 1) {
+        // Fix logo path: add 'uploads/' prefix if not present
+        $logoPath = $service['logo'];
+        if (!empty($logoPath) && strpos($logoPath, 'uploads/') !== 0) {
+            $logoPath = 'uploads/' . $logoPath;
+        }
+        if (empty($logoPath)) {
+            $logoPath = 'uploads/default-logo.png';
+        }
+        
+        $servicesData[$service['transport_type']][] = [
+            'id' => $service['id'],
+            'name' => $service['name'],
+            'logo' => $logoPath,
+            'route' => $service['route'],
+            'price' => $service['price'],
+            'transportType' => $service['transport_type'],
+            'displayOrder' => $service['display_order'],
+            'updatedAt' => $service['updated_at']
+        ];
+    }
+}
+
+// Convert ke JSON untuk JavaScript
+$servicesDataJSON = json_encode($servicesData, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pemesanan - <?php echo htmlspecialchars($companyInfoData['name']); ?></title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="icons.css">
-    <link rel="stylesheet" href="pemesanan-landscape.css">
+    <title>Pemesanan - <?php echo htmlspecialchars($companyInfoData['name']); ?> [DB:<?php echo time(); ?>]</title>
+    
+    <!-- 🔥 EXTREME CACHE BUSTING 🔥 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <link rel="stylesheet" href="styles.css?v=<?php echo time() . mt_rand(); ?>">
+    <link rel="stylesheet" href="icons.css?v=<?php echo time() . mt_rand(); ?>">
+    <link rel="stylesheet" href="pemesanan-landscape.css?v=<?php echo time() . mt_rand(); ?>">
+    
+    <!-- ============================================
+         ⚡ DATA 100% DARI DATABASE - REAL-TIME ⚡
+         TIDAK MENGGUNAKAN config.js SAMA SEKALI!
+         Semua data LANGSUNG dari database MySQL
+         UPDATE, HAPUS, TAMBAH di admin = LANGSUNG SINKRON!
+         ============================================ -->
+    <script>
+        // ==========================================
+        // FORCE DISABLE config.js - GUNAKAN DATABASE ONLY!
+        // ==========================================
+        
+        // Timestamp untuk prevent caching
+        const DB_TIMESTAMP = <?php echo time(); ?>;
+        const DB_DATE = '<?php echo date('Y-m-d H:i:s'); ?>';
+        
+        // 🔥 DATA DARI DATABASE - BUKAN dari config.js!
+        const DATA_TRANSPORTASI_FROM_DB = <?php echo $servicesDataJSON; ?>;
+        
+        // 🔥 FORCE OVERRIDE - Ignore config.js completely!
+        var DATA_TRANSPORTASI_DEFAULT = DATA_TRANSPORTASI_FROM_DB;
+        
+        // 🔥 BLOCK config.js data if it tries to load
+        window.DATA_TRANSPORTASI_DEFAULT = DATA_TRANSPORTASI_FROM_DB;
+        
+        // LOG untuk debugging
+        console.log('═══════════════════════════════════════════════════');
+        console.log('🔥 DATA SOURCE: DATABASE (MySQL)');
+        console.log('❌ config.js: DISABLED (data static diabaikan)');
+        console.log('═══════════════════════════════════════════════════');
+        console.log('🕐 Loaded at:', DB_DATE);
+        console.log('📊 Total services from DATABASE:', {
+            pesawat: DATA_TRANSPORTASI_FROM_DB.pesawat.length + ' items',
+            kapal: DATA_TRANSPORTASI_FROM_DB.kapal.length + ' items',
+            bus: DATA_TRANSPORTASI_FROM_DB.bus.length + ' items',
+            TOTAL: (DATA_TRANSPORTASI_FROM_DB.pesawat.length + 
+                    DATA_TRANSPORTASI_FROM_DB.kapal.length + 
+                    DATA_TRANSPORTASI_FROM_DB.bus.length) + ' items'
+        });
+        console.log('═══════════════════════════════════════════════════');
+        console.log('📝 SEMUA PESAWAT dari DATABASE:');
+        DATA_TRANSPORTASI_FROM_DB.pesawat.forEach((item, i) => {
+            console.log(`  ${i+1}. ${item.name} - ${item.price}`);
+        });
+        console.log('═══════════════════════════════════════════════════');
+        console.log('✅ Tambah/Edit/Hapus di Admin Panel = LANGSUNG SINKRON!');
+        console.log('✅ Refresh halaman (Ctrl+F5) untuk lihat perubahan');
+        console.log('═══════════════════════════════════════════════════');
+    </script>
 </head>
 <body class="page-pemesanan">
     <!-- Header -->
@@ -34,8 +146,8 @@ $companyInfoData = [
                     <li><a href="index.php">Beranda</a></li>
                     <li><a href="pemesanan.php" class="active">Pemesanan</a></li>
                     <li><a href="galeri.php">Galeri</a></li>
-                    <li><a href="kontak.php">Kontak</a></li>
                     <li><a href="faq.php">FAQ</a></li>
+                    <li><a href="kontak.php">Kontak</a></li>
                 </ul>
             </nav>
             
@@ -92,7 +204,7 @@ $companyInfoData = [
                             <span class="filter-tab-name">Pesawat</span>
                             <span class="filter-tab-desc">Cepat & Efisien</span>
                         </div>
-                        <div class="filter-tab-badge" id="badge-pesawat">8</div>
+                        <div class="filter-tab-badge" id="badge-pesawat"><?php echo count($servicesData['pesawat']); ?></div>
                     </button>
                     <button class="filter-tab" data-type="kapal" onclick="bookingApp.switchFilter('kapal')">
                         <div class="filter-tab-icon">
@@ -102,7 +214,7 @@ $companyInfoData = [
                             <span class="filter-tab-name">Kapal</span>
                             <span class="filter-tab-desc">Nyaman & Scenic</span>
                         </div>
-                        <div class="filter-tab-badge" id="badge-kapal">2</div>
+                        <div class="filter-tab-badge" id="badge-kapal"><?php echo count($servicesData['kapal']); ?></div>
                     </button>
                     <button class="filter-tab" data-type="bus" onclick="bookingApp.switchFilter('bus')">
                         <div class="filter-tab-icon">
@@ -112,7 +224,7 @@ $companyInfoData = [
                             <span class="filter-tab-name">Bus</span>
                             <span class="filter-tab-desc">Ekonomis & Fleksibel</span>
                         </div>
-                        <div class="filter-tab-badge" id="badge-bus">1</div>
+                        <div class="filter-tab-badge" id="badge-bus"><?php echo count($servicesData['bus']); ?></div>
                     </button>
                 </div>
             </div>
@@ -122,12 +234,7 @@ $companyInfoData = [
     <!-- Cards Container with Enhanced Layout -->
     <section class="booking-list-section">
         <div class="container">
-            <!-- Section Header -->
-            <div class="section-header-booking">
-                <h2 class="section-title-booking" id="sectionTitle">Pilihan Pesawat Terbaik</h2>
-                <p class="section-subtitle-booking" id="sectionSubtitle">8 pilihan layanan tersedia untuk Anda</p>
-            </div>
-            
+
             <!-- Cards Grid -->
             <div class="transport-cards-grid" id="cardsContainer">
                 <!-- Cards will be rendered here by JavaScript -->
@@ -206,7 +313,7 @@ $companyInfoData = [
                             
                             <div class="form-group">
                                 <label>Kelas Perjalanan <span class="required">*</span></label>
-                                <select id="kelasPerjalanan" name="kelas_perjalanan" class="form-input form-select" required onchange="bookingApp.updateKelasOptions()">
+                                <select id="kelasPerjalanan" name="kelas_perjalanan" class="form-input form-select" required>
                                     <option value="">Pilih Kelas</option>
                                 </select>
                             </div>
@@ -246,7 +353,7 @@ $companyInfoData = [
     <!-- Footer Premium -->
     <footer class="footer-premium">
         <div class="container">
-            <!-- Main Grid: 4 Kolom -->
+            <!-- Main Grid: 3 Kolom -->
             <div class="footer-grid-premium">
                 
                 <!-- KOLOM 1: Tentang Kami -->
@@ -254,70 +361,72 @@ $companyInfoData = [
                     <h3 class="footer-heading-premium">Tentang Kami</h3>
                     <div class="footer-separator-premium"></div>
                     <p class="footer-text-premium">
-                        <?php echo htmlspecialchars($companyInfoData['description']); ?>
+                        Kami adalah penyedia layanan travel terpercaya dengan pengalaman lebih dari 10 tahun dalam melayani perjalanan Anda. Berawal dari lokasi sederhana, kini kami siap melayani kebutuhan liburan Anda.
                     </p>
                     <div class="footer-hours-box">
                         <p class="footer-label-premium">Jam Operasional:</p>
                         <p class="footer-text-premium">
-                            <?php echo htmlspecialchars($companyInfoData['hours']); ?>
+                            Senin - Minggu: 08:00 - 22:00 WIB
                         </p>
                     </div>
                 </section>
 
-                <!-- KOLOM 2: Menu Cepat -->
+                <!-- KOLOM 2: Navigasi -->
                 <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Menu Cepat</h3>
+                    <h3 class="footer-heading-premium">Navigasi</h3>
                     <div class="footer-separator-premium"></div>
                     <ul class="footer-links-premium">
                         <li><a href="index.php">Beranda</a></li>
                         <li><a href="pemesanan.php">Pemesanan</a></li>
-                        <li><a href="galeri.php">Galeri</a></li>
-                        <li><a href="kontak.php">Kontak</a></li>
+                        <li><a href="galeri.php">Galen</a></li>
                         <li><a href="faq.php">FAQ</a></li>
+                        <li><a href="kontak.php">Kontak</a></li>
                     </ul>
                 </section>
 
-                <!-- KOLOM 3: Layanan Kami -->
-                <section class="footer-section-premium">
-                    <h3 class="footer-heading-premium">Layanan Kami</h3>
-                    <div class="footer-separator-premium"></div>
-                    <ul class="footer-links-premium">
-                        <li><a href="#">Paket Liburan</a></li>
-                        <li><a href="#">Tiket Pesawat</a></li>
-                        <li><a href="#">Hotel & Akomodasi</a></li>
-                        <li><a href="#">Tour Guide</a></li>
-                    </ul>
-                </section>
-
-                <!-- KOLOM 4: Hubungi Kami -->
+                <!-- KOLOM 3: Hubungi Kami -->
                 <section class="footer-section-premium">
                     <h3 class="footer-heading-premium">Hubungi Kami</h3>
                     <div class="footer-separator-premium"></div>
                     <div class="footer-contact-item">
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact">📱 WhatsApp</a>
+                        <i class="fab fa-whatsapp" style="color: #25D366; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">WhatsApp</p>
+                            <a href="https://wa.me/6285821841529" class="footer-link-contact">
+                                0858-2184-1529
+                            </a>
+                        </div>
                     </div>
                     <div class="footer-contact-item">
-                        <a href="https://wa.me/<?php echo htmlspecialchars($companyInfoData['whatsapp']); ?>" class="footer-link-contact"><?php echo htmlspecialchars($companyInfoData['whatsapp']); ?></a>
+                        <i class="fas fa-envelope" style="color: #E8B89A; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">Email</p>
+                            <a href="mailto:admin@cendanatravel.com" class="footer-link-contact">
+                                admin@cendanatravel.com
+                            </a>
+                        </div>
                     </div>
                     <div class="footer-contact-item">
-                        <a href="mailto:<?php echo htmlspecialchars($companyInfoData['email']); ?>" class="footer-link-contact">📧 Email</a>
-                    </div>
-                    <div class="footer-contact-item">
-                        <p class="footer-label-premium">Alamat:</p>
-                        <p class="footer-text-premium"><?php echo htmlspecialchars($companyInfoData['address']); ?></p>
+                        <i class="fas fa-map-marker-alt" style="color: #E8B89A; margin-right: 8px;"></i>
+                        <div>
+                            <p class="footer-label-premium">Alamat</p>
+                            <p class="footer-text-premium footer-address">
+                                Jl. Cendana No.8, Tlk. Lerong Ulu, Kec. Sungai Kunang, Kota Samarinda, Kalimantan Timur 75127
+                            </p>
+                        </div>
                     </div>
                 </section>
+
             </div>
 
-            <!-- Footer Bottom -->
+            <!-- Footer Bottom: Copyright & Admin Login -->
             <div class="footer-bottom-premium">
                 <p class="footer-copyright-premium">
-                    &copy; 2024 <?php echo htmlspecialchars($companyInfoData['name']); ?>. All rights reserved.
+                    &copy; 2024 Cv. Cendana Travel. All rights reserved.
                 </p>
-                <!-- Ikon kunci admin (tersembunyi) -->
-                <div class="admin-access" onclick="showAdminLogin()" title="Akses Admin">
-                    <i class="icon icon-sign-in"></i>
-                </div>
+                <a href="auth.php" class="footer-admin-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
             </div>
         </div>
     </footer>
@@ -388,9 +497,89 @@ $companyInfoData = [
             }
         };
     </script>
-    <script src="config.js"></script>
-    <script src="script.js"></script>
-    <script src="pemesanan.js"></script>
+    
+    <!-- ============================================
+         ❌ config.js DINONAKTIFKAN! ❌
+         Data sekarang 100% dari DATABASE (MySQL)
+         ============================================ -->
+    <!-- <script src="config.js?v=<?php echo time(); ?>"></script> -->
+    
+    <script src="script.js?v=<?php echo time() . mt_rand(); ?>"></script>
+    <script src="pemesanan.js?v=<?php echo time() . mt_rand(); ?>"></script>
+    
+    <!-- ============================================
+         🔥 FORCE OVERRIDE - DATABASE ONLY! 🔥
+         Semua data dari MySQL database
+         Tidak pakai config.js sama sekali!
+         ============================================ -->
+    <script>
+        console.log('═══════════════════════════════════════════════════');
+        console.log('🔥 STAGE 2: Override bookingApp with DATABASE data');
+        console.log('═══════════════════════════════════════════════════');
+        
+        // 🔥 FORCE OVERRIDE bookingApp dengan data dari database
+        if (typeof bookingApp !== 'undefined' && DATA_TRANSPORTASI_FROM_DB) {
+            
+            // HAPUS semua data static dari config.js
+            console.log('🗑️  Removing static data from config.js...');
+            
+            // REPLACE dengan data database
+            bookingApp.servicesData = DATA_TRANSPORTASI_FROM_DB;
+            console.log('✅ bookingApp.servicesData = DATABASE (100% from MySQL)');
+            
+            // VERIFY data source
+            console.log('� Verifying data source:');
+            console.log('   - Pesawat items:', bookingApp.servicesData.pesawat.length);
+            console.log('   - Kapal items:', bookingApp.servicesData.kapal.length);
+            console.log('   - Bus items:', bookingApp.servicesData.bus.length);
+            
+            // Clear & re-render dengan data database
+            console.log('🔄 Clearing old cards and rendering DATABASE data...');
+            
+            const container = document.getElementById('cardsContainer');
+            if (container) {
+                container.innerHTML = '<div style="text-align:center;padding:40px;"><h3 style="color:#667eea;">⏳ Loading Data dari Database...</h3><p style="color:#999;">Mengambil data terbaru dari MySQL...</p></div>';
+            }
+            
+            // Re-render dengan delay untuk memastikan clean state
+            setTimeout(() => {
+                console.log('🎨 Rendering cards from DATABASE...');
+                
+                // RENDER dengan data database
+                bookingApp.renderCards(bookingApp.currentFilter);
+                
+                console.log('✅ Cards rendered successfully!');
+                console.log('📋 Total cards displayed:', document.querySelectorAll('.service-card').length);
+                
+                // Update badge counts dari database
+                document.getElementById('badge-pesawat').textContent = DATA_TRANSPORTASI_FROM_DB.pesawat.length;
+                document.getElementById('badge-kapal').textContent = DATA_TRANSPORTASI_FROM_DB.kapal.length;
+                document.getElementById('badge-bus').textContent = DATA_TRANSPORTASI_FROM_DB.bus.length;
+                
+                console.log('✅ Badge counts updated from DATABASE');
+                console.log('═══════════════════════════════════════════════════');
+                console.log('🎉 SUCCESS! All data loaded from DATABASE');
+                console.log('📅 Last update:', DB_DATE);
+                console.log('═══════════════════════════════════════════════════');
+                console.log('💡 TEST SEKARANG:');
+                console.log('   1. Edit data di Admin Panel');
+                console.log('   2. Refresh halaman ini (Ctrl+F5)');
+                console.log('   3. Perubahan LANGSUNG terlihat! ✅');
+                console.log('═══════════════════════════════════════════════════');
+                
+            }, 100);
+        } else {
+            console.error('═══════════════════════════════════════════════════');
+            console.error('❌ ERROR: bookingApp or DATABASE data not found!');
+            console.error('═══════════════════════════════════════════════════');
+            console.log('Debug info:', {
+                bookingApp: typeof bookingApp,
+                DATA_TRANSPORTASI_FROM_DB: typeof DATA_TRANSPORTASI_FROM_DB,
+                hasData: DATA_TRANSPORTASI_FROM_DB ? 'YES' : 'NO'
+            });
+            console.error('═══════════════════════════════════════════════════');
+        }
+    </script>
 </body>
 </html>
 

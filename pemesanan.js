@@ -155,7 +155,8 @@ const bookingApp = {
         const card = document.createElement('div');
         card.className = 'transport-card';
         
-        const logoPath = service.logo ? `uploads/${service.logo}` : this.getDefaultLogo(service.transportType);
+        // ✅ Path sudah diperbaiki di PHP (pemesanan.php), tidak perlu tambah 'uploads/' lagi
+        const logoPath = service.logo || this.getDefaultLogo(service.transportType);
         const iconClass = this.getIconClass(service.transportType);
         
         card.innerHTML = `

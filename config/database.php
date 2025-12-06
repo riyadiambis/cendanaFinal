@@ -5,11 +5,10 @@
  * Untuk: Tugas Pemrograman Web - Cv. Cendana Travel
  */
 
-// Konfigurasi Database (diset ke default XAMPP: user root tanpa password, port 3306)
-define('DB_HOST', '127.0.0.1');
+// Konfigurasi Database
+define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_PORT', 3306);
 define('DB_NAME', 'cendana_travel');
 define('DB_CHARSET', 'utf8mb4');
 
@@ -25,21 +24,18 @@ ini_set('display_errors', 0);
  * Fungsi untuk membuat koneksi database
  */
 function createDatabaseConnection() {
-    // Coba beberapa port umum (3306 default XAMPP, 3307 alternatif) agar tidak mentok di setting lama Linux
-    $ports = array_unique([DB_PORT, 3307]);
-    $errors = [];
-
-    foreach ($ports as $port) {
-        $conn = @new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME, $port);
-        if ($conn && !$conn->connect_error) {
-            $conn->set_charset(DB_CHARSET);
-            return $conn;
-        }
-        $errors[] = "host=" . DB_HOST . " port=" . $port . " => " . ($conn ? $conn->connect_error : 'koneksi gagal');
+    // Buat koneksi ke MySQL
+    $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+    
+    // Cek apakah koneksi berhasil
+    if ($conn->connect_error) {
+        die("Koneksi database gagal: " . $conn->connect_error);
     }
-
-    // Berhenti dengan pesan gabungan supaya jelas port mana yang gagal
-    die("Koneksi database gagal. Coba jalankan MySQL XAMPP dan pastikan database '" . DB_NAME . "' ada. Detail: " . implode(' | ', $errors));
+    
+    // Set charset UTF-8
+    $conn->set_charset(DB_CHARSET);
+    
+    return $conn;
 }
 
 // Buat koneksi database
@@ -131,13 +127,23 @@ function setAdminSession($adminId, $username) {
  * Fungsi untuk hapus session admin saat logout
  */
 function destroyAdminSession() {
-    startSecureSession();
-    $_SESSION = [];
-    
-    if (isset($_COOKIE[session_name()])) {
-        setcookie(session_name(), '', time() - 3600, '/');
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
     }
     
+    // Hapus semua session variables
+    $_SESSION = [];
+    
+    // Hapus session cookie
+    if (isset($_COOKIE[session_name()])) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    // Destroy session
     session_destroy();
 }
 
