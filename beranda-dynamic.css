@@ -650,12 +650,6 @@ section:not(:last-of-type) {
     position: relative;
 }
 
-.horizontal-scroll-wrapper {
-    position: relative;
-    padding: 2rem 0;
-    margin: 0;
-}
-
 .horizontal-scroll-container {
     display: flex;
     gap: 2rem;
@@ -665,6 +659,8 @@ section:not(:last-of-type) {
     padding: 1rem 0 2rem;
     -webkit-overflow-scrolling: touch;
     margin: 0;
+    /* Ensure it respects the container width */
+    max-width: 100%;
 }
 
 /* Orange scrollbar removed per client request */

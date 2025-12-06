@@ -222,10 +222,9 @@ $companyInfoData = [
                 <p>Ikuti langkah berikut untuk menyelesaikan pembayaran dengan mudah dan aman.</p>
             </div>
 
-            <div class="horizontal-scroll-wrapper">
-                <div class="horizontal-scroll-container">
-                    <!-- STEP 1: TRANSFER BANK -->
-                    <article class="payment-card-scroll">
+            <div class="horizontal-scroll-container">
+                <!-- STEP 1: TRANSFER BANK -->
+                <article class="payment-card-scroll">
                         <div class="payment-step-icon-wrapper">
                             <div class="payment-step-icon-background">
                                 <i class="icon icon-bank"></i>
@@ -256,7 +255,6 @@ $companyInfoData = [
                         <h3>Tiket Dikirim</h3>
                         <p>Setelah validasi, e-ticket akan dikirim langsung melalui WhatsApp atau email Anda.</p>
                     </article>
-                </div>
             </div>
         </div>
     </section>
