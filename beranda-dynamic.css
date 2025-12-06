@@ -964,7 +964,8 @@ section:not(:last-of-type) {
    ============================================ */
 
 .gallery-polaroid-section {
-    padding: 50px 0;
+    padding: 50px 0 0 0;
+    margin-bottom: 0;
     background-color: #f9f6f2;
     text-align: center;
 }
@@ -973,8 +974,8 @@ section:not(:last-of-type) {
     position: relative;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
-    padding: 30px 20px;
+    margin: 0 auto 0 auto;
+    padding: 30px 20px 0 20px;
 }
 
 /* Polaroid Cards Stack */
@@ -1059,7 +1060,7 @@ section:not(:last-of-type) {
     font-size: 16px;
     color: #666;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 16px;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
@@ -1076,6 +1077,7 @@ section:not(:last-of-type) {
     text-decoration: none;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s, box-shadow 0.3s;
+    margin-bottom: 0;
 }
 
 .btn-gallery-polaroid:hover {
@@ -1088,21 +1090,22 @@ section:not(:last-of-type) {
    ============================================ */
 
 .legality-compact {
-    padding: 4rem 0;
+    padding: 0 0 3rem 0;
+    margin-top: 0;
     background: #ffffff;
 }
 
 .legality-grid-2x2 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
+    gap: 1.5rem;
     max-width: 900px;
-    margin: 2.5rem auto 0;
+    margin: 1.8rem auto 0;
 }
 
 .legality-item {
     background: #FFF5F0;
-    padding: 3.5rem 3rem;
+    padding: 2.5rem 2rem;
     border-radius: 24px;
     text-align: center;
     border: 1px solid rgba(212, 149, 110, 0.2);
@@ -1116,16 +1119,16 @@ section:not(:last-of-type) {
 }
 
 .legality-item .legality-icon {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     background: linear-gradient(135deg, #D4956E 0%, #F4A460 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: #ffffff;
-    margin: 0 auto 2rem;
+    margin: 0 auto 1.25rem;
     box-shadow: 0 10px 30px rgba(212, 149, 110, 0.3);
 }
 
@@ -1133,7 +1136,7 @@ section:not(:last-of-type) {
     font-size: 1.5rem;
     font-weight: 700;
     color: #2a1f1a;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .legality-item p {
@@ -1544,6 +1547,52 @@ section:not(:last-of-type) {
     .cta-btn {
         width: 100%;
         justify-content: center;
+    }
+
+    /* Legality Section Mobile */
+    .legality-compact {
+        padding: 0 0 2rem 0;
+    }
+
+    .legality-compact .section-header {
+        padding-top: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .gallery-polaroid-section {
+        padding: 40px 0 0 0;
+        margin-bottom: 0;
+    }
+
+    .gallery-polaroid-wrapper {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+
+    .legality-grid-2x2 {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin: 1.5rem auto 0;
+    }
+
+    .legality-item {
+        padding: 2rem 1.5rem;
+    }
+
+    .legality-item .legality-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .legality-item h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .legality-item p {
+        font-size: 0.95rem;
     }
 }
 
