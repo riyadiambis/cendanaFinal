@@ -120,6 +120,8 @@ $companyInfoData = [
             </div>
 
             <!-- Gallery Grid -->
+            <!-- ====== PERUBAHAN RIYADI ====== -->
+            <!-- Gallery cards now clickable with modal popup (Shopee-style detail view) -->
             <div class="gallery-grid">
                 <?php if (count($galleries) > 0): ?>
                     <?php foreach ($galleries as $gallery): ?>
@@ -144,6 +146,7 @@ $companyInfoData = [
                             </div>
                         </article>
                     <?php endforeach; ?>
+                    <!-- ====== END PERUBAHAN RIYADI ====== -->
                 <?php else: ?>
                     <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
                         <i class="icon icon-image" style="font-size: 4rem; color: var(--color-light-gray); margin-bottom: 1rem;"></i>
