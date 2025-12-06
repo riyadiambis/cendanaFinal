@@ -203,10 +203,7 @@ header.scrolled {
     align-items: center;
     padding-top: var(--spacing-md);
     padding-bottom: var(--spacing-md);
-    padding-left: 32px;
-    /* Padding diatur oleh .container */
-    padding-right: 32px;
-    /* Padding diatur oleh .container */
+    /* Horizontal padding inherited from .container class (2rem = 32px) */
     min-height: 70px;
 }
 
