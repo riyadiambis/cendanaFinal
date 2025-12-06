@@ -761,7 +761,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             border-right: 1px solid var(--admin-border);
             padding: 24px 0;
             overflow-y: auto;
-            z-index: 999;
+            z-index: 1001; /* above mobile overlay so menu tetap bisa diklik */
             box-shadow: var(--admin-shadow-md);
         }
 
@@ -4897,7 +4897,7 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             width: 100vw;
             height: 100vh;
             background: rgba(0, 0, 0, 0.6);
-            z-index: 999;
+            z-index: 900; /* di bawah sidebar agar menu bisa diklik */
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -4977,7 +4977,24 @@ $cacheKiller = time() . mt_rand(1000, 9999);
             
             // Show target section
             targetSection.classList.add('active');
+
+            // Scroll ke atas konten utama agar terlihat setelah pindah section
+            const mainContent = document.querySelector('.admin-content');
+            if (mainContent) {
+                mainContent.scrollTop = 0;
+            }
             
+
+        // Pastikan semua link sidebar memanggil showSection meski onclick tidak ter-trigger
+        document.querySelectorAll('.sidebar-nav .nav-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = (this.getAttribute('href') || '').replace('#', '');
+                if (target) {
+                    showSection(target);
+                }
+            });
+        });
             // Update navigation active state - perbaiki bug active state
             allNavLinks.forEach(link => link.classList.remove('active'));
             
