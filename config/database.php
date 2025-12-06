@@ -8,7 +8,7 @@
 // Konfigurasi Database
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', 'Hananta123');
+define('DB_PASS', '');
 define('DB_NAME', 'cendana_travel');
 define('DB_CHARSET', 'utf8mb4');
 
