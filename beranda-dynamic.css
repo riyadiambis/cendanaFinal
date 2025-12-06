@@ -667,18 +667,14 @@ section:not(:last-of-type) {
     margin: 0;
 }
 
+/* Orange scrollbar removed per client request */
 .horizontal-scroll-container::-webkit-scrollbar {
-    height: 8px;
+    display: none; /* Hide scrollbar completely */
 }
 
-.horizontal-scroll-container::-webkit-scrollbar-track {
-    background: rgba(212, 149, 110, 0.1);
-    border-radius: 10px;
-}
-
-.horizontal-scroll-container::-webkit-scrollbar-thumb {
-    background: linear-gradient(90deg, #D4956E, #F4A460);
-    border-radius: 10px;
+.horizontal-scroll-container {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
 }
 
 .payment-card-scroll {
